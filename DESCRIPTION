@@ -21,3 +21,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/blueskypie/cHeatmap
+BugReports: https://github.com/blueskypie/cHeatmap/issues
