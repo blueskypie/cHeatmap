@@ -1,0 +1,23 @@
+Package: cHeatmap
+Title: Plot a Heatmap
+Version: 0.0.0.9000
+Authors@R: 
+    person("Jike", "Cui", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This is a wrapper of the ComplexHeatmap::Heatmap() with additional functions.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: 
+    circlize,
+    ComplexHeatmap,
+    dendextend,
+    grid,
+    grDevices,
+    scales,
+    stats
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
