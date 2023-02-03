@@ -3,51 +3,28 @@
 
 # cHeatmap
 
-<!-- badges: start -->
+[![](https://img.shields.io/badge/devel%20version-0.1.0-blue.svg)](https://github.com/blueskypie/cHeatmap)
+[![](https://travis-ci.org/blueskypie/cHeatmap.svg?branch=main)](https://travis-ci.org/blueskypie/cHeatmap)
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+<!-- badges: start --> [![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
-The goal of cHeatmap is to …
+cHeatmap is a wrapper of the excellent
+[`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html)
+function with additional functions and more friendly interface for some
+common tasks in my work, thus called the **c**onvenience **Heatmap**. I
+highly recommend reading [ComplexHeatmap
+book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html)
+for more advanced use.
 
-## Installation
+See [manual](https://blueskypie.github.io/cHeatmap/reference/index.html)
+and
+[examples](https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html)
 
-You can install the development version of cHeatmap like so:
+Since this is just a toy, I have no plan to submit it to CRAN. So please
+install from github directly:
 
-``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(cHeatmap)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+`devtools::install_github("blueskypie/cHeatmap")`

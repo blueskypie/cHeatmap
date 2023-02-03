@@ -1,6 +1,9 @@
 Package: cHeatmap
 Title: Plot Heatmaps
-Version: 0.0.0.9000
+Version: 0.1.0
+Authors@R: 
+    person("Jike", "Cui", , "16052330+blueskypie@users.noreply.github.com", 
+    role = c("aut", "cre"))
 Description: This is a wrapper of the ComplexHeatmap::Heatmap() with additional functions.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -15,6 +18,7 @@ Imports:
     scales,
     stats
 Suggests: 
+    badger,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
