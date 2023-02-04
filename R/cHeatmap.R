@@ -52,7 +52,7 @@
 #'    * If an annotation is not numeric, the vector is character,
 #'        i.e. `c('red'='a','pink'='b','yellow'='c')`
 #' @param drawHeatmap logical, `TRUE`; it uses [ComplexHeatmap::draw()] to merge all
-#'        legends into one columns and draw the final heatmap.
+#'        legends into one column and draw the final heatmap.
 #'    * It should be set to `TRUE` to obtain the clustering orders, i.e. by `column_order()`
 #'    * However, it should be `FALSE` if the returned
 #'        heatmap from `cHeatmap()` will be concatenated with another heatmaps.
@@ -61,7 +61,7 @@
 #'        squeeze the whole color scale. If `TRUE`, outliers will be reset to the max
 #'        or min values excluding them. The values of those outliers can be displayed
 #'         directly on the heatmap at `cellFontSize` and `cellFontColor`.
-#' @param clusteringUsingResetValues logical, `FALSE`; should the clustering of
+#' @param clusterUsingResetValues logical, `FALSE`; should the clustering of
 #'        rows and columns use the reset values of outliers?
 #' @param cellFontSize numeric, `9`
 #' @param cellFontColor character, `"white"`
@@ -138,7 +138,7 @@ cHeatmap <- function(mat1,
                     colmAnnoColMap = list(),
                     drawHeatmap = T,
                     resetOutliers = is.numeric(mat1),
-                    clusteringUsingResetValues = FALSE,
+                    clusterUsingResetValues = FALSE,
                     cellFun = NULL,
                     cellFontSize = 9,
                     cellFontColor = 'black',
@@ -229,7 +229,7 @@ cHeatmap <- function(mat1,
 
 
     # reset values if asked ----
-    if (clusteringUsingResetValues) {
+    if (clusterUsingResetValues) {
       mat1[which(mat1 > colMap[cmLen])] <- colMap[cmLen]
       mat1[which(mat1 < colMap[1])] <- colMap[1]
     }

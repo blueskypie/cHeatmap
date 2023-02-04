@@ -15,11 +15,9 @@ knitr::opts_chunk$set(
 
 # cHeatmap
 `r badger::badge_devel("blueskypie/cHeatmap", "blue")`
-`r badger::badge_travis("blueskypie/cHeatmap")`
+`r badger::badge_travis("blueskypie/cHeatmap",is_commercial = T)`
 `r badger::badge_repostatus("Active")`
-<!-- badges: start -->
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-<!-- badges: end -->
+`r badger::badge_lifecycle("stable")`
 
 cHeatmap is a wrapper of the excellent [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html) function with additional functions and more friendly interface for some common 
 tasks in my work, thus called the **c**onvenience __Heatmap__. I highly recommend
