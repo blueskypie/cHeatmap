@@ -20,7 +20,7 @@ cHeatmap(
   colmAnnoColMap = list(),
   drawHeatmap = T,
   resetOutliers = is.numeric(mat1),
-  clusteringUsingResetValues = FALSE,
+  clusterUsingResetValues = FALSE,
   cellFun = NULL,
   cellFontSize = 9,
   cellFontColor = "black",
@@ -85,7 +85,7 @@ i.e. \code{c('red'='a','pink'='b','yellow'='c')}
 }}
 
 \item{drawHeatmap}{logical, \code{TRUE}; it uses \code{\link[ComplexHeatmap:draw-dispatch]{ComplexHeatmap::draw()}} to merge all
-legends into one columns and draw the final heatmap.
+legends into one column and draw the final heatmap.
 \itemize{
 \item It should be set to \code{TRUE} to obtain the clustering orders, i.e. by \code{column_order()}
 \item However, it should be \code{FALSE} if the returned
@@ -97,7 +97,7 @@ squeeze the whole color scale. If \code{TRUE}, outliers will be reset to the max
 or min values excluding them. The values of those outliers can be displayed
 directly on the heatmap at \code{cellFontSize} and \code{cellFontColor}.}
 
-\item{clusteringUsingResetValues}{logical, \code{FALSE}; should the clustering of
+\item{clusterUsingResetValues}{logical, \code{FALSE}; should the clustering of
 rows and columns use the reset values of outliers?}
 
 \item{cellFun}{\code{NULL}; it is used to display info for individual cells; text
