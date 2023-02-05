@@ -76,7 +76,7 @@ functions and more friendly interfaces for some common tasks in plotting heatmap
 <span>  colmAnnoColMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  drawHeatmap <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>  resetOutliers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">is.numeric</a></span><span class="op">(</span><span class="va">mat1</span><span class="op">)</span>,</span>
-<span>  clusteringUsingResetValues <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  clusterUsingResetValues <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cellFun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cellFontSize <span class="op">=</span> <span class="fl">9</span>,</span>
 <span>  cellFontColor <span class="op">=</span> <span class="st">"black"</span>,</span>
@@ -156,7 +156,7 @@ i.e. <code>c('red'='a','pink'='b','yellow'='c')</code></p></li>
 
 <dt>drawHeatmap</dt>
 <dd><p>logical, <code>TRUE</code>; it uses <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">ComplexHeatmap::draw()</a></code> to merge all
-legends into one columns and draw the final heatmap.</p><ul><li><p>It should be set to <code>TRUE</code> to obtain the clustering orders, i.e. by <code>column_order()</code></p></li>
+legends into one column and draw the final heatmap.</p><ul><li><p>It should be set to <code>TRUE</code> to obtain the clustering orders, i.e. by <code>column_order()</code></p></li>
 <li><p>However, it should be <code>FALSE</code> if the returned
 heatmap from <code>cHeatmap()</code> will be concatenated with another heatmaps.</p></li>
 </ul></dd>
@@ -169,7 +169,7 @@ or min values excluding them. The values of those outliers can be displayed
 directly on the heatmap at <code>cellFontSize</code> and <code>cellFontColor</code>.</p></dd>
 
 
-<dt>clusteringUsingResetValues</dt>
+<dt>clusterUsingResetValues</dt>
 <dd><p>logical, <code>FALSE</code>; should the clustering of
 rows and columns use the reset values of outliers?</p></dd>
 
