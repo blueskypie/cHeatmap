@@ -2,7 +2,7 @@
 % Please edit documentation in R/cHeatmap.R
 \name{cHeatmap}
 \alias{cHeatmap}
-\title{Plot a heatmap.}
+\title{Plot heatmaps}
 \usage{
 cHeatmap(
   mat1,
@@ -32,7 +32,7 @@ cHeatmap(
 \item{mat1}{A numeric or character matrix or data frame, required.}
 
 \item{whiteValue}{numeric, \code{NULL}. If \code{mat1} is numeric, the value of the white
-color in the legend.}
+or middle color in the legend if \code{colMap} consists of three colors.}
 
 \item{colMap}{A vector, \code{c("green4"=NA, "white"=whiteValue, "red"=NA)}.
 It defines the colors used in the heatmap and their mapping to values,

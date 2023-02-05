@@ -1,4 +1,4 @@
-#' Plot a heatmap.
+#' Plot heatmaps
 #'
 #' This is a wrapper of the [ComplexHeatmap::Heatmap()] with additional
 #' functions and more friendly interfaces for some common tasks in plotting heatmaps.
@@ -12,7 +12,7 @@
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
 #' @param whiteValue numeric, `NULL`. If `mat1` is numeric, the value of the white
-#'        color in the legend.
+#'        or middle color in the legend if `colMap` consists of three colors.
 #' @param colMap A vector, `c("green4"=NA, "white"=whiteValue, "red"=NA)`.
 #'        It defines the colors used in the heatmap and their mapping to values,
 #'        and therefore should be supplied as a named vector.
