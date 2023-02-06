@@ -449,12 +449,8 @@ cHeatmap <- function(mat1,
   ht1 <- do.call(ComplexHeatmap::Heatmap, argList)
 
   if (drawHeatmap) {
-    ht1 <- ComplexHeatmap::draw(ht1,
+    ComplexHeatmap::draw(ht1,
                                merge_legend = TRUE,
                                heatmap_legend_side = legendPos[1])
-  }
-
-  ht1
-
-
+  }else(ht1)
 }
