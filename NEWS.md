@@ -1,3 +1,8 @@
-# cHeatmap 0.0.0.9000
+# cHeatmap 0.1.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* Implemented all the basic functions.
+
+# cHeatmap 0.1.1
+
+* Added `legendBreakDist` and `legendHeight` to adjust legend.
+

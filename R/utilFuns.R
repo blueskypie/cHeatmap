@@ -45,9 +45,9 @@ getDistinctColors <- function(n) {
     "brown"
   )
 
-if (n > length(allColors)) {
-  allColors <- grDevices::colors(distinct = T)
-}
+  if (n > length(allColors)) {
+    allColors <- grDevices::colors(distinct = T)
+  }
   #sample(allColors,n)
   allColors[1:n]
 }

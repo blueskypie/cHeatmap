@@ -12,7 +12,7 @@ functions and more friendly interfaces for some common tasks in plotting heatmap
     
     <a class="navbar-brand me-2" href="../index.html">cHeatmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,6 +81,8 @@ functions and more friendly interfaces for some common tasks in plotting heatmap
 <span>  cellFontSize <span class="op">=</span> <span class="fl">9</span>,</span>
 <span>  cellFontColor <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  rowDraw <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legendBreakDist <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legendHeight <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -92,24 +94,24 @@ functions and more friendly interfaces for some common tasks in plotting heatmap
 
 
 <dt>whiteValue</dt>
-<dd><p>numeric, <code>NULL</code>. If <code>mat1</code> is numeric, the value of the white
-or middle color in the legend if <code>colMap</code> consists of three colors.</p></dd>
+<dd><p>Numeric, <code>NULL</code>; it is the value of the white or middle color
+in the legend if <code>mat1</code> is numeric and <code>colMap</code> consists of three colors.</p></dd>
 
 
 <dt>colMap</dt>
-<dd><p>A vector, <code>c("green4"=NA, "white"=whiteValue, "red"=NA)</code>.
-It defines the colors used in the heatmap and their mapping to values,
+<dd><p>A vector, <code>c("green4"=NA, "white"=whiteValue, "red"=NA)</code>;
+it defines the colors used in the heatmap and their mapping to values,
 and therefore should be supplied as a named vector.</p><ul><li><p>For character <code>mat1</code>, <code>colMap</code> is a character vector, i.e.
 <code>c('red'='a','pink'='b','yellow'='c')</code> if the unique
-values in <code>mat1</code> are a, b, and c.</p></li>
+values in <code>mat1</code> are <code>a</code>, <code>b</code>, and <code>c</code>.</p></li>
 <li><p>For numeric <code>mat1</code>, <code>colMap</code> is a numeric vector, i.e.
 <code>c('blue'= NA,'green'=5, 'red'=10)</code></p><ol><li><p><code>colMap</code> can be supplied w/o names for convenience,
 i.e. <code>c(-1, 0, 3)</code>; in this case, the length must be three and names are
 assumed to be <code>c("green4", "white", "red")</code></p></li>
-<li><p>the 1st and last value of colMap are the lower and upper bounds of
-displayed values; values out side of that range will be considered as
+<li><p>The first and last value of <code>colMap</code> are the lower and upper bounds of
+displayed values; values outside of that range will be considered as
 outliers.</p></li>
-<li><p>one or both of the 1st and last values of colMap can be supplied as NA;
+<li><p>One or both of the first and last values of <code>colMap</code> can be supplied as NA;
 then outliers will be auto-computed if <code>resetOutliers</code> is <code>TRUE</code>.</p></li>
 </ol></li>
 </ul></dd>
@@ -117,7 +119,7 @@ then outliers will be auto-computed if <code>resetOutliers</code> is <code>TRUE<
 
 <dt>intAsDiscreteCutoff</dt>
 <dd><p>integer, 6; if <code>mat1</code> is an integer matrix and has &lt; 6
-unique values, its legend color mapping will be displayed as discrete.</p></dd>
+unique values, the color mapping in the legend will be discrete.</p></dd>
 
 
 <dt>legendPos</dt>
@@ -126,10 +128,10 @@ unique values, its legend color mapping will be displayed as discrete.</p></dd>
 
 <dt>nRowCluster, nColmCluster</dt>
 <dd><p>integer, <code>NULL</code>; number of colored clusters in row or
-column; different clusters will be in different colors; If this argument
+column; different clusters will be in different colors. If this argument
 is set, it assumes <code>cluster_rows</code> and <code>cluster_columns</code> are <code>TRUE</code>; so
 do <strong>NOT</strong> explicitly set those two arguments again.
-To also split column, set <code>column_split = nColmCluster</code></p></dd>
+To also split, i.e. columns, set <code>column_split = nColmCluster</code>.</p></dd>
 
 
 <dt>rowAnnoDf, colmAnnoDf</dt>
@@ -144,10 +146,10 @@ length and order of the row/column of <code>mat1</code>.</p></dd>
 
 
 <dt>rowAnnoColMap, colmAnnoColMap</dt>
-<dd><p>list, <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>; The color mappings for row and column
+<dd><p>list, <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>; the color mappings for row and column
 annotations are handled automatically. Use this parameter to manually
 set the color mappings, <code>names(list)</code> is the names of each annotation.
-Each item of the list is a vector named by colors, similar to parameter <code>colMap</code>.</p><ul><li><p>If an annotation is numeric, the vector is numeric ,
+Each item of the list is a vector named by colors, similar to parameter <code>colMap</code>.</p><ul><li><p>If an annotation is numeric, the vector is numeric,
 i.e. <code>c("green4"= -1, "yellow"=0, "red"=5)</code></p></li>
 <li><p>If an annotation is not numeric, the vector is character,
 i.e. <code>c('red'='a','pink'='b','yellow'='c')</code></p></li>
@@ -158,15 +160,15 @@ i.e. <code>c('red'='a','pink'='b','yellow'='c')</code></p></li>
 <dd><p>logical, <code>TRUE</code>; it uses <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html" class="external-link">ComplexHeatmap::draw()</a></code> to merge all
 legends into one column and draw the final heatmap.</p><ul><li><p>It should be set to <code>TRUE</code> to obtain the clustering orders, i.e. by <code>column_order()</code></p></li>
 <li><p>However, it should be <code>FALSE</code> if the returned
-heatmap from <code>cHeatmap()</code> will be concatenated with another heatmaps.</p></li>
+heatmap from <code>cHeatmap()</code> will be concatenated with other heatmaps.</p></li>
 </ul></dd>
 
 
 <dt>resetOutliers</dt>
-<dd><p>logical, <code>is.numeric(mat1)</code>; outlier values in <code>mat1</code> can
-squeeze the whole color scale. If <code>TRUE</code>, outliers will be reset to the max
-or min values excluding them. The values of those outliers can be displayed
-directly on the heatmap at <code>cellFontSize</code> and <code>cellFontColor</code>.</p></dd>
+<dd><p>logical, <code>is.numeric(mat1)</code>; outliers in numeric <code>mat1</code> can
+stretch the whole color scale. If <code>TRUE</code>, the bounds of the legend will
+be reset to the max or min values excluding them; for example,  the legend
+of <code>c(10, 0.1, 0, 0.2)</code> will be from <code>0</code> to <code>0.2</code> with the labels <code>0</code> and <code>&gt;0.2</code>.</p></dd>
 
 
 <dt>clusterUsingResetValues</dt>
@@ -178,19 +180,19 @@ rows and columns use the reset values of outliers?</p></dd>
 <dd><p><code>NULL</code>; it is used to display info for individual cells; text
 info can be formatted by <code>cellFontSize</code> and <code>cellFontColor</code>. here
 are different usages:</p><ul><li><p>A function to determine where and what to display at certain cells; it
-takes a cell value as input and returns a number or character. for
-example:</p><ul><li><p><code>cellFun = function(x){x}</code>: display the value of each cell</p></li>
+takes a cell value as input and the returned value is to be displayed.
+for example:</p><ul><li><p><code>cellFun = function(x){x}</code>: display the value of each cell</p></li>
 <li><p><code>cellFun = function(x){if(x &gt; 10) x}</code>: display the value of cells
 whose values are greater than 10</p></li>
 <li><p><code>cellFun = function(x){if(x &gt; 10) '?'}</code>: display the '?' sign</p></li>
 <li><p><code>cellFun = function(x){if(x &gt; 10) list('rect',col='black',lwd=2)}</code>:
 color the edges black and set line width as 2. Check the parameters
-of <code><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">grid::gpar()</a></code> for details.</p></li>
+of <code><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">grid::gpar()</a></code> for more controls.</p></li>
 </ul></li>
 <li><p>A character vector or list:</p><ul><li><p><code>cellFun = 'o'</code>: display the values of all the outliers in <code>mat1</code> if any</p></li>
 <li><p><code>cellFun = c('o','+')</code>: display the '+' sign instead of the value at the
 outlier cells</p></li>
-<li><p><code>cellFun=c('o',list('rect',col='red',lwd=2))</code>: color the outliers cells
+<li><p><code>cellFun=c('o',list('rect',col='red',lwd=2))</code>: color the outlier cells
 with red edges</p></li>
 </ul></li>
 </ul><p>The <code>'o'</code> and <code>'rect'</code> are hard coded cases for usage convenience; for
@@ -198,12 +200,9 @@ more complicated cell drawing, use the parameter <code>cell_fun</code> of
 <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code> directly.</p></dd>
 
 
-<dt>cellFontSize</dt>
-<dd><p>numeric, <code>9</code></p></dd>
-
-
-<dt>cellFontColor</dt>
-<dd><p>character, <code>"white"</code></p></dd>
+<dt>cellFontSize, cellFontColor</dt>
+<dd><p>numeric, <code>9</code>; character, <code>"white"</code>; format
+text displayed in heatmap cells.</p></dd>
 
 
 <dt>rowDraw</dt>
@@ -211,21 +210,35 @@ more complicated cell drawing, use the parameter <code>cell_fun</code> of
 contain the following item:</p><ol><li><p>the function in the <code>grid</code> package to make the draw and its parameters;
 for examples:</p><ul><li><p><code>list('grid.points',size = grid::unit(0.3, "char"),gp=grid::gpar(col='black'))</code>
 ; see <code><a href="https://rdrr.io/r/grid/grid.points.html" class="external-link">grid::grid.points()</a></code> for details. For <code>grid.point</code>, it can also
-be simply coded as <code>list('grid.points',size = 0.3,pch=1,col='black')</code>
-parameter <code>col</code> and following are for <code>gpar()</code>.</p></li>
+be simply coded as <code>list('grid.points',size = 0.3,pch=1,col='black')</code>;
+parameter <code>col</code> and followed items are for <code>gpar()</code>.</p></li>
 <li><p><code>list('grid.lines',gp=grid::gpar(col='black',lwd = 2))</code>; see
 <code><a href="https://rdrr.io/r/grid/grid.lines.html" class="external-link">grid::grid.lines()</a></code> for details. For <code>grid.lines</code>, it can also be
 simply coded as <code>list('grid.lines',col='black',lwd = 2)</code>
-parameter <code>col</code> and following are for <code>gpar()</code>.</p></li>
+parameter <code>col</code> and followed items are for <code>gpar()</code>.</p></li>
 <li><p><code>list( list('grid.points',size = 0.3,col='black'), list('grid.lines',col='black',lwd = 2) )</code> for multiple drawings</p></li>
 </ul></li>
-<li><p>a matrix containing the data to make the drawing, meeting
-<code>ncol() == ncol(mat1)</code></p></li>
+<li><p>a matrix containing the data to make the drawing, its number of columns</p></li>
 <li><p>an integer vector specifying the rows to make the drawing;
 if <code>NULL</code>, it means all the rows of mat1 and assumes
 <code>nrow() == nrow(mat1)</code> for the supplied matrix at #2</p></li>
 </ol><p>See the parameter <code>layer_fun</code> of <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code> for more
 complex drawing across a block of cells.</p></dd>
+
+
+<dt>legendBreakDist</dt>
+<dd><p>numeric vector, NULL; set the distance between two breaks in
+the legend and can be the following values:</p><ul><li><p><code>NULL</code>; the numeric distance among breaks</p></li>
+<li><p><code>1</code>; equal distance among breaks</p></li>
+<li><p>a numeric vector to represent the relative length of each section between
+two breaks; its length should be <code>length(colMap) - 1</code>;
+for example, <code>c(1, 1, 0.5, 3)</code> for
+<code>colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)</code></p></li>
+</ul></dd>
+
+
+<dt>legendHeight</dt>
+<dd><p>numeric, NULL; height of the vertical legend in cm.</p></dd>
 
 
 <dt>...</dt>
@@ -241,11 +254,14 @@ a <a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap-class.html" class="ext
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Here are the additional function:</p><ol><li><p>automatically or manually set the value of outliers in the input matrix so
-that the color of the heatmap won't be dominated by the outliers.</p></li>
-<li><p>the option to set the value mapping to each color in the heatmap legend.</p></li>
-<li><p>auto coloring of the dendrogram</p></li>
-<li><p>easily highlight or display the values of certain cells</p></li>
+    <p>Here are the features:</p><ol><li><p>Automatic or manual setting of the values of outliers in the input matrix so
+that the color scale of the heatmap is not dominated by those outliers</p></li>
+<li><p>The option to set the color-value mappings in the heatmap legend</p></li>
+<li><p>Automatic coloring of the dendrogram</p></li>
+<li><p>Easy highlight or display of the values of certain cells</p></li>
+<li><p>Discrete color-value mapping for integer matrices containing few unique values</p></li>
+<li><p>Clustering of the character matrix based on the orders of characters</p></li>
+<li><p>Interface to plot across rows</p></li>
 </ol></div>
 
     <div class="section level2">

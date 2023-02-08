@@ -25,46 +25,48 @@ cHeatmap(
   cellFontSize = 9,
   cellFontColor = "black",
   rowDraw = NULL,
+  legendBreakDist = NULL,
+  legendHeight = NULL,
   ...
 )
 }
 \arguments{
 \item{mat1}{A numeric or character matrix or data frame, required.}
 
-\item{whiteValue}{numeric, \code{NULL}. If \code{mat1} is numeric, the value of the white
-or middle color in the legend if \code{colMap} consists of three colors.}
+\item{whiteValue}{Numeric, \code{NULL}; it is the value of the white or middle color
+in the legend if \code{mat1} is numeric and \code{colMap} consists of three colors.}
 
-\item{colMap}{A vector, \code{c("green4"=NA, "white"=whiteValue, "red"=NA)}.
-It defines the colors used in the heatmap and their mapping to values,
+\item{colMap}{A vector, \code{c("green4"=NA, "white"=whiteValue, "red"=NA)};
+it defines the colors used in the heatmap and their mapping to values,
 and therefore should be supplied as a named vector.
 \itemize{
 \item For character \code{mat1}, \code{colMap} is a character vector, i.e.
 \code{c('red'='a','pink'='b','yellow'='c')} if the unique
-values in \code{mat1} are a, b, and c.
+values in \code{mat1} are \code{a}, \code{b}, and \code{c}.
 \item For numeric \code{mat1}, \code{colMap} is a numeric vector, i.e.
 \code{c('blue'= NA,'green'=5, 'red'=10)}
 \enumerate{
 \item \code{colMap} can be supplied w/o names for convenience,
 i.e. \code{c(-1, 0, 3)}; in this case, the length must be three and names are
 assumed to be \code{c("green4", "white", "red")}
-\item the 1st and last value of colMap are the lower and upper bounds of
-displayed values; values out side of that range will be considered as
+\item The first and last value of \code{colMap} are the lower and upper bounds of
+displayed values; values outside of that range will be considered as
 outliers.
-\item one or both of the 1st and last values of colMap can be supplied as NA;
+\item One or both of the first and last values of \code{colMap} can be supplied as NA;
 then outliers will be auto-computed if \code{resetOutliers} is \code{TRUE}.
 }
 }}
 
 \item{intAsDiscreteCutoff}{integer, 6; if \code{mat1} is an integer matrix and has < 6
-unique values, its legend color mapping will be displayed as discrete.}
+unique values, the color mapping in the legend will be discrete.}
 
 \item{legendPos}{one of \code{c("right", "left", "bottom", "top")}}
 
 \item{nRowCluster, nColmCluster}{integer, \code{NULL}; number of colored clusters in row or
-column; different clusters will be in different colors; If this argument
+column; different clusters will be in different colors. If this argument
 is set, it assumes \code{cluster_rows} and \code{cluster_columns} are \code{TRUE}; so
 do \strong{NOT} explicitly set those two arguments again.
-To also split column, set \code{column_split = nColmCluster}}
+To also split, i.e. columns, set \code{column_split = nColmCluster}.}
 
 \item{rowAnnoDf, colmAnnoDf}{matrix or data frame, \code{NULL}; annotation for row
 or column. The rows of the \code{rowAnnoDf}/\code{colmAnnoDf} should be of the same
@@ -73,12 +75,12 @@ length and order of the row/column of \code{mat1}.}
 \item{rowAnnoPara, colmAnnoPara}{list, \code{list(na_col = "white")}; passed to
 \code{\link[ComplexHeatmap:rowAnnotation]{ComplexHeatmap::rowAnnotation()}} or \code{\link[ComplexHeatmap:columnAnnotation]{ComplexHeatmap::columnAnnotation()}}}
 
-\item{rowAnnoColMap, colmAnnoColMap}{list, \code{list()}; The color mappings for row and column
+\item{rowAnnoColMap, colmAnnoColMap}{list, \code{list()}; the color mappings for row and column
 annotations are handled automatically. Use this parameter to manually
 set the color mappings, \code{names(list)} is the names of each annotation.
 Each item of the list is a vector named by colors, similar to parameter \code{colMap}.
 \itemize{
-\item If an annotation is numeric, the vector is numeric ,
+\item If an annotation is numeric, the vector is numeric,
 i.e. \code{c("green4"= -1, "yellow"=0, "red"=5)}
 \item If an annotation is not numeric, the vector is character,
 i.e. \code{c('red'='a','pink'='b','yellow'='c')}
@@ -89,13 +91,13 @@ legends into one column and draw the final heatmap.
 \itemize{
 \item It should be set to \code{TRUE} to obtain the clustering orders, i.e. by \code{column_order()}
 \item However, it should be \code{FALSE} if the returned
-heatmap from \code{cHeatmap()} will be concatenated with another heatmaps.
+heatmap from \code{cHeatmap()} will be concatenated with other heatmaps.
 }}
 
-\item{resetOutliers}{logical, \code{is.numeric(mat1)}; outlier values in \code{mat1} can
-squeeze the whole color scale. If \code{TRUE}, outliers will be reset to the max
-or min values excluding them. The values of those outliers can be displayed
-directly on the heatmap at \code{cellFontSize} and \code{cellFontColor}.}
+\item{resetOutliers}{logical, \code{is.numeric(mat1)}; outliers in numeric \code{mat1} can
+stretch the whole color scale. If \code{TRUE}, the bounds of the legend will
+be reset to the max or min values excluding them; for example,  the legend
+of \code{c(10, 0.1, 0, 0.2)} will be from \code{0} to \code{0.2} with the labels \code{0} and \verb{>0.2}.}
 
 \item{clusterUsingResetValues}{logical, \code{FALSE}; should the clustering of
 rows and columns use the reset values of outliers?}
@@ -105,8 +107,8 @@ info can be formatted by \code{cellFontSize} and \code{cellFontColor}. here
 are different usages:
 \itemize{
 \item A function to determine where and what to display at certain cells; it
-takes a cell value as input and returns a number or character. for
-example:
+takes a cell value as input and the returned value is to be displayed.
+for example:
 \itemize{
 \item \code{cellFun = function(x){x}}: display the value of each cell
 \item \code{cellFun = function(x){if(x > 10) x}}: display the value of cells
@@ -114,14 +116,14 @@ whose values are greater than 10
 \item \code{cellFun = function(x){if(x > 10) '?'}}: display the '?' sign
 \item \code{cellFun = function(x){if(x > 10) list('rect',col='black',lwd=2)}}:
 color the edges black and set line width as 2. Check the parameters
-of \code{\link[grid:gpar]{grid::gpar()}} for details.
+of \code{\link[grid:gpar]{grid::gpar()}} for more controls.
 }
 \item A character vector or list:
 \itemize{
 \item \code{cellFun = 'o'}: display the values of all the outliers in \code{mat1} if any
 \item \code{cellFun = c('o','+')}: display the '+' sign instead of the value at the
 outlier cells
-\item \code{cellFun=c('o',list('rect',col='red',lwd=2))}: color the outliers cells
+\item \code{cellFun=c('o',list('rect',col='red',lwd=2))}: color the outlier cells
 with red edges
 }
 }
@@ -130,9 +132,8 @@ The \code{'o'} and \code{'rect'} are hard coded cases for usage convenience; for
 more complicated cell drawing, use the parameter \code{cell_fun} of
 \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} directly.}
 
-\item{cellFontSize}{numeric, \code{9}}
-
-\item{cellFontColor}{character, \code{"white"}}
+\item{cellFontSize, cellFontColor}{numeric, \code{9}; character, \code{"white"}; format
+text displayed in heatmap cells.}
 
 \item{rowDraw}{list, \code{NULL}; it is used to plot across rows. The list should
 contain the following item:
@@ -142,16 +143,15 @@ for examples:
 \itemize{
 \item \code{list('grid.points',size = grid::unit(0.3, "char"),gp=grid::gpar(col='black'))}
 ; see \code{\link[grid:grid.points]{grid::grid.points()}} for details. For \code{grid.point}, it can also
-be simply coded as \code{list('grid.points',size = 0.3,pch=1,col='black')}
-parameter \code{col} and following are for \code{gpar()}.
+be simply coded as \code{list('grid.points',size = 0.3,pch=1,col='black')};
+parameter \code{col} and followed items are for \code{gpar()}.
 \item \code{list('grid.lines',gp=grid::gpar(col='black',lwd = 2))}; see
 \code{\link[grid:grid.lines]{grid::grid.lines()}} for details. For \code{grid.lines}, it can also be
 simply coded as \code{list('grid.lines',col='black',lwd = 2)}
-parameter \code{col} and following are for \code{gpar()}.
+parameter \code{col} and followed items are for \code{gpar()}.
 \item \code{list( list('grid.points',size = 0.3,col='black'), list('grid.lines',col='black',lwd = 2) )} for multiple drawings
 }
-\item a matrix containing the data to make the drawing, meeting
-\code{ncol() == ncol(mat1)}
+\item a matrix containing the data to make the drawing, its number of columns
 \item an integer vector specifying the rows to make the drawing;
 if \code{NULL}, it means all the rows of mat1 and assumes
 \code{nrow() == nrow(mat1)} for the supplied matrix at #2
@@ -159,6 +159,19 @@ if \code{NULL}, it means all the rows of mat1 and assumes
 
 See the parameter \code{layer_fun} of \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} for more
 complex drawing across a block of cells.}
+
+\item{legendBreakDist}{numeric vector, NULL; set the distance between two breaks in
+the legend and can be the following values:
+\itemize{
+\item \code{NULL}; the numeric distance among breaks
+\item \code{1}; equal distance among breaks
+\item a numeric vector to represent the relative length of each section between
+two breaks; its length should be \code{length(colMap) - 1};
+for example, \code{c(1, 1, 0.5, 3)} for
+\code{colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)}
+}}
+
+\item{legendHeight}{numeric, NULL; height of the vertical legend in cm.}
 
 \item{...}{passed to \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 }
@@ -171,13 +184,16 @@ This is a wrapper of the \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Hea
 functions and more friendly interfaces for some common tasks in plotting heatmaps.
 }
 \details{
-Here are the additional function:
+Here are the features:
 \enumerate{
-\item automatically or manually set the value of outliers in the input matrix so
-that the color of the heatmap won't be dominated by the outliers.
-\item the option to set the value mapping to each color in the heatmap legend.
-\item auto coloring of the dendrogram
-\item easily highlight or display the values of certain cells
+\item Automatic or manual setting of the values of outliers in the input matrix so
+that the color scale of the heatmap is not dominated by those outliers
+\item The option to set the color-value mappings in the heatmap legend
+\item Automatic coloring of the dendrogram
+\item Easy highlight or display of the values of certain cells
+\item Discrete color-value mapping for integer matrices containing few unique values
+\item Clustering of the character matrix based on the orders of characters
+\item Interface to plot across rows
 }
 }
 \examples{

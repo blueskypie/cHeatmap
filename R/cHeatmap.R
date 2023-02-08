@@ -3,51 +3,55 @@
 #' This is a wrapper of the [ComplexHeatmap::Heatmap()] with additional
 #' functions and more friendly interfaces for some common tasks in plotting heatmaps.
 #'
-#' Here are the additional function:
-#' 1. automatically or manually set the value of outliers in the input matrix so
-#'    that the color of the heatmap won't be dominated by the outliers.
-#' 2. the option to set the value mapping to each color in the heatmap legend.
-#' 3. auto coloring of the dendrogram
-#' 4. easily highlight or display the values of certain cells
+#' Here are the features:
+
+#' 1. Automatic or manual setting of the values of outliers in the input matrix so
+#' that the color scale of the heatmap is not dominated by those outliers
+#' 2. The option to set the color-value mappings in the heatmap legend
+#' 3. Automatic coloring of the dendrogram
+#' 4. Easy highlight or display of the values of certain cells
+#' 5. Discrete color-value mapping for integer matrices containing few unique values
+#' 6. Clustering of the character matrix based on the orders of characters
+#' 7. Interface to plot across rows
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
-#' @param whiteValue numeric, `NULL`. If `mat1` is numeric, the value of the white
-#'        or middle color in the legend if `colMap` consists of three colors.
-#' @param colMap A vector, `c("green4"=NA, "white"=whiteValue, "red"=NA)`.
-#'        It defines the colors used in the heatmap and their mapping to values,
+#' @param whiteValue Numeric, `NULL`; it is the value of the white or middle color
+#'        in the legend if `mat1` is numeric and `colMap` consists of three colors.
+#' @param colMap A vector, `c("green4"=NA, "white"=whiteValue, "red"=NA)`;
+#'        it defines the colors used in the heatmap and their mapping to values,
 #'        and therefore should be supplied as a named vector.
 #'    * For character `mat1`, `colMap` is a character vector, i.e.
 #'        `c('red'='a','pink'='b','yellow'='c')` if the unique
-#'        values in `mat1` are a, b, and c.
+#'        values in `mat1` are `a`, `b`, and `c`.
 #'    * For numeric `mat1`, `colMap` is a numeric vector, i.e.
 #'         `c('blue'= NA,'green'=5, 'red'=10)`
 #'      1. `colMap` can be supplied w/o names for convenience,
 #'        i.e. `c(-1, 0, 3)`; in this case, the length must be three and names are
 #'        assumed to be `c("green4", "white", "red")`
-#'      2. the 1st and last value of colMap are the lower and upper bounds of
-#'         displayed values; values out side of that range will be considered as
+#'      2. The first and last value of `colMap` are the lower and upper bounds of
+#'         displayed values; values outside of that range will be considered as
 #'         outliers.
-#'      3. one or both of the 1st and last values of colMap can be supplied as NA;
+#'      3. One or both of the first and last values of `colMap` can be supplied as NA;
 #'         then outliers will be auto-computed if `resetOutliers` is `TRUE`.
 #'
 #' @param intAsDiscreteCutoff integer, 6; if `mat1` is an integer matrix and has < 6
-#'        unique values, its legend color mapping will be displayed as discrete.
+#'        unique values, the color mapping in the legend will be discrete.
 #' @param legendPos one of `c("right", "left", "bottom", "top")`
 #' @param nRowCluster,nColmCluster integer, `NULL`; number of colored clusters in row or
-#'        column; different clusters will be in different colors; If this argument
+#'        column; different clusters will be in different colors. If this argument
 #'        is set, it assumes `cluster_rows` and `cluster_columns` are `TRUE`; so
 #'        do __NOT__ explicitly set those two arguments again.
-#'         To also split column, set `column_split = nColmCluster`
+#'         To also split, i.e. columns, set `column_split = nColmCluster`.
 #' @param rowAnnoDf,colmAnnoDf matrix or data frame, `NULL`; annotation for row
 #'        or column. The rows of the `rowAnnoDf`/`colmAnnoDf` should be of the same
 #'        length and order of the row/column of `mat1`.
 #' @param rowAnnoPara,colmAnnoPara list, `list(na_col = "white")`; passed to
 #'        [ComplexHeatmap::rowAnnotation()] or [ComplexHeatmap::columnAnnotation()]
-#' @param rowAnnoColMap,colmAnnoColMap list, `list()`; The color mappings for row and column
+#' @param rowAnnoColMap,colmAnnoColMap list, `list()`; the color mappings for row and column
 #'        annotations are handled automatically. Use this parameter to manually
 #'        set the color mappings, `names(list)` is the names of each annotation.
 #'        Each item of the list is a vector named by colors, similar to parameter `colMap`.
-#'    * If an annotation is numeric, the vector is numeric ,
+#'    * If an annotation is numeric, the vector is numeric,
 #'        i.e. `c("green4"= -1, "yellow"=0, "red"=5)`
 #'    * If an annotation is not numeric, the vector is character,
 #'        i.e. `c('red'='a','pink'='b','yellow'='c')`
@@ -55,35 +59,35 @@
 #'        legends into one column and draw the final heatmap.
 #'    * It should be set to `TRUE` to obtain the clustering orders, i.e. by `column_order()`
 #'    * However, it should be `FALSE` if the returned
-#'        heatmap from `cHeatmap()` will be concatenated with another heatmaps.
+#'        heatmap from `cHeatmap()` will be concatenated with other heatmaps.
 #'
-#' @param resetOutliers logical, `is.numeric(mat1)`; outlier values in `mat1` can
-#'        squeeze the whole color scale. If `TRUE`, outliers will be reset to the max
-#'        or min values excluding them. The values of those outliers can be displayed
-#'         directly on the heatmap at `cellFontSize` and `cellFontColor`.
+#' @param resetOutliers logical, `is.numeric(mat1)`; outliers in numeric `mat1` can
+#'        stretch the whole color scale. If `TRUE`, the bounds of the legend will
+#'        be reset to the max or min values excluding them; for example,  the legend
+#'        of `c(10, 0.1, 0, 0.2)` will be from `0` to `0.2` with the labels `0` and `>0.2`.
 #' @param clusterUsingResetValues logical, `FALSE`; should the clustering of
 #'        rows and columns use the reset values of outliers?
-#' @param cellFontSize numeric, `9`
-#' @param cellFontColor character, `"white"`
+#' @param cellFontSize,cellFontColor numeric, `9`; character, `"white"`; format
+#'        text displayed in heatmap cells.
 #'
 #' @param cellFun `NULL`; it is used to display info for individual cells; text
 #'        info can be formatted by `cellFontSize` and `cellFontColor`. here
 #'        are different usages:
 #'    * A function to determine where and what to display at certain cells; it
-#'      takes a cell value as input and returns a number or character. for
-#'      example:
+#'      takes a cell value as input and the returned value is to be displayed.
+#'      for example:
 #'      + `cellFun = function(x){x}`: display the value of each cell
 #'      + `cellFun = function(x){if(x > 10) x}`: display the value of cells
 #'        whose values are greater than 10
 #'      + `cellFun = function(x){if(x > 10) '?'}`: display the '?' sign
 #'      + `cellFun = function(x){if(x > 10) list('rect',col='black',lwd=2)}`:
 #'         color the edges black and set line width as 2. Check the parameters
-#'         of [grid::gpar()] for details.
+#'         of [grid::gpar()] for more controls.
 #'    * A character vector or list:
 #'      +  `cellFun = 'o'`: display the values of all the outliers in `mat1` if any
 #'      +  `cellFun = c('o','+')`: display the '+' sign instead of the value at the
 #'         outlier cells
-#'      +  `cellFun=c('o',list('rect',col='red',lwd=2))`: color the outliers cells
+#'      +  `cellFun=c('o',list('rect',col='red',lwd=2))`: color the outlier cells
 #'         with red edges
 #'
 #'    The `'o'` and `'rect'` are hard coded cases for usage convenience; for
@@ -96,24 +100,32 @@
 #'       for examples:
 #'       - `list('grid.points',size = grid::unit(0.3, "char"),gp=grid::gpar(col='black'))`
 #'         ; see [grid::grid.points()] for details. For `grid.point`, it can also
-#'         be simply coded as `list('grid.points',size = 0.3,pch=1,col='black')`
-#'         parameter `col` and following are for `gpar()`.
+#'         be simply coded as `list('grid.points',size = 0.3,pch=1,col='black')`;
+#'         parameter `col` and followed items are for `gpar()`.
 #'       - `list('grid.lines',gp=grid::gpar(col='black',lwd = 2))`; see
 #'         [grid::grid.lines()] for details. For `grid.lines`, it can also be
 #'         simply coded as `list('grid.lines',col='black',lwd = 2)`
-#'         parameter `col` and following are for `gpar()`.
+#'         parameter `col` and followed items are for `gpar()`.
 #'       - `list(
 #'           list('grid.points',size = 0.3,col='black'),
 #'           list('grid.lines',col='black',lwd = 2)
 #'           )` for multiple drawings
-#'    2. a matrix containing the data to make the drawing, meeting
-#'       `ncol() == ncol(mat1)`
+#'    2. a matrix containing the data to make the drawing, its number of columns
 #'    3. an integer vector specifying the rows to make the drawing;
 #'       if `NULL`, it means all the rows of mat1 and assumes
 #'       `nrow() == nrow(mat1)` for the supplied matrix at #2
 #'
 #'    See the parameter `layer_fun` of [ComplexHeatmap::Heatmap()] for more
 #'       complex drawing across a block of cells.
+#' @param legendBreakDist numeric vector, NULL; set the distance between two breaks in
+#'        the legend and can be the following values:
+#'    * `NULL`; the numeric distance among breaks
+#'    * `1`; equal distance among breaks
+#'    * a numeric vector to represent the relative length of each section between
+#'       two breaks; its length should be `length(colMap) - 1`;
+#'       for example, `c(1, 1, 0.5, 3)` for
+#'    `colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)`
+#' @param legendHeight numeric, NULL; height of the vertical legend in cm.
 
 #' @param ... passed to [ComplexHeatmap::Heatmap()]
 #'
@@ -122,28 +134,30 @@
 #' @export
 #' @examples #none for now.
 cHeatmap <- function(mat1,
-                    whiteValue = NA,
-                    colMap = c("green4" = NA,
-                               "white" = whiteValue,
-                               "red" = NA),
-                    intAsDiscreteCutoff = 6,
-                    legendPos = c("right", "left", "bottom", "top"),
-                    nRowCluster = NULL,
-                    nColmCluster = NULL,
-                    rowAnnoDf = NULL,
-                    colmAnnoDf = NULL,
-                    rowAnnoPara = list(na_col = "white"),
-                    colmAnnoPara = list(na_col = "white"),
-                    rowAnnoColMap = list(),
-                    colmAnnoColMap = list(),
-                    drawHeatmap = T,
-                    resetOutliers = is.numeric(mat1),
-                    clusterUsingResetValues = FALSE,
-                    cellFun = NULL,
-                    cellFontSize = 9,
-                    cellFontColor = 'black',
-                    rowDraw = NULL,
-                    ...) {
+                     whiteValue = NA,
+                     colMap = c("green4" = NA,
+                                "white" = whiteValue,
+                                "red" = NA),
+                     intAsDiscreteCutoff = 6,
+                     legendPos = c("right", "left", "bottom", "top"),
+                     nRowCluster = NULL,
+                     nColmCluster = NULL,
+                     rowAnnoDf = NULL,
+                     colmAnnoDf = NULL,
+                     rowAnnoPara = list(na_col = "white"),
+                     colmAnnoPara = list(na_col = "white"),
+                     rowAnnoColMap = list(),
+                     colmAnnoColMap = list(),
+                     drawHeatmap = T,
+                     resetOutliers = is.numeric(mat1),
+                     clusterUsingResetValues = FALSE,
+                     cellFun = NULL,
+                     cellFontSize = 9,
+                     cellFontColor = 'black',
+                     rowDraw = NULL,
+                     legendBreakDist = NULL,
+                     legendHeight = NULL,
+                     ...) {
   if (is.data.frame(mat1))
     mat1 <- as.matrix(mat1)
   argList <- list(
@@ -177,15 +191,15 @@ cHeatmap <- function(mat1,
     }
 
     argList$heatmap_legend_param <- c(argList$heatmap_legend_param, list(labels =
-                                                                          uniItems))
+                                                                           uniItems))
 
     # color mapping
     argList$col <- `if`(is.na(colMap[1]),
-                       # user does not set colMap
-                       # 1:length(uniItems) are indices of auto-generated colors
-                       # names are the items in mat1 those colors map to
-                       structure(1:length(uniItems), names = as.character(uniItems)),
-                       vecSwitch(colMap))
+                        # user does not set colMap
+                        # 1:length(uniItems) are indices of auto-generated colors
+                        # names are the items in mat1 those colors map to
+                        structure(1:length(uniItems), names = as.character(uniItems)),
+                        vecSwitch(colMap))
 
   } else{
     # mat1 is numeric
@@ -277,7 +291,7 @@ cHeatmap <- function(mat1,
 
       if (is.numeric(k)) {
         nDig <- ifelse(abs(k) >= 10 ||
-                        is.integer(k), 0, 1) #number decimal digits
+                         is.integer(k), 0, 1) #number decimal digits
         k <- format(round(k, digits = nDig), nsmall = nDig)
       }
 
@@ -436,21 +450,27 @@ cHeatmap <- function(mat1,
 
 
   # combine all args and call Heatmap()----
-  argList$matrix <- mat0
-  dotArgs <- list(...)
-  dotArgs$heatmap_legend_param <- c(
-    dotArgs$heatmap_legend_param,
-    list(title_position = "topleft"),
+  list1 <- c(
+    list(title_position = "topleft",break_dist = legendBreakDist),
     legendBounds,
     argList$heatmap_legend_param
   )
+
+  if(!is.null(legendHeight)) {
+    list1$legend_height  <- grid::unit(legendHeight, 'cm')
+  }
+
+  argList$matrix <- mat0
+  dotArgs <- list(...)
+  dotArgs$heatmap_legend_param <- c(dotArgs$heatmap_legend_param, list1)
+
   # overwrite any hard-coded parameters with user supplied ones if any
   argList[names(dotArgs)] <- dotArgs
   ht1 <- do.call(ComplexHeatmap::Heatmap, argList)
 
   if (drawHeatmap) {
     ComplexHeatmap::draw(ht1,
-                               merge_legend = TRUE,
-                               heatmap_legend_side = legendPos[1])
+                         merge_legend = TRUE,
+                         heatmap_legend_side = legendPos[1])
   }else(ht1)
 }

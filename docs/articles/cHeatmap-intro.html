@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">cHeatmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,14 +92,14 @@ book</a> for more advanced use.</p>
 <ol style="list-style-type: decimal">
 <li>Automatic or manual setting of the values of outliers in the input
 matrix so that the color scale of the heatmap is not dominated by those
-outliers.</li>
+outliers</li>
 <li>The option to set the color-value mappings in the heatmap
-legend.</li>
+legend</li>
 <li>Automatic coloring of the dendrogram</li>
 <li>Easy highlight or display of the values of certain cells</li>
-<li>Discrete color-value mapping for integer matrix containing few
+<li>Discrete color-value mapping for integer matrices containing few
 unique values</li>
-<li>Clustering of character matrix based on the orders of
+<li>Clustering of the character matrix based on the orders of
 characters</li>
 <li>Interface to plot across rows</li>
 </ol>
@@ -111,7 +111,7 @@ characters</li>
 <h3 id="reset-the-value-of-outliers">Reset the value of outliers<a class="anchor" aria-label="anchor" href="#reset-the-value-of-outliers"></a>
 </h3>
 <p>Outliers in a numeric matrix dominate the color scale and make the
-differences among many cells invisible, such as <code>nMat1</code>
+differences among many cells barely visible, such as <code>nMat1</code>
 below.</p>
 <pre><code>{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(
@@ -128,7 +128,7 @@ knitr::opts_chunk$set(
 <span><span class="va">mat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nMat1</span>, <span class="va">uMat1</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
-<span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"value"</span>, <span class="co"># legend title</span></span>
 <span>  resetOutliers <span class="op">=</span> <span class="cn">F</span>, <span class="co"># do not detect outliers</span></span>
 <span>  cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_columns <span class="op">=</span> <span class="cn">F</span>, <span class="co"># no clustering</span></span>
 <span>  cellFun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="va">x</span> <span class="op">}</span>, <span class="co"># display all the values</span></span>
@@ -137,9 +137,9 @@ knitr::opts_chunk$set(
 <p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
 <p>Set <code>resetOutliers = T</code> to detect outliers in
 <code>mat1</code> and reset their values, so that the difference in the
-values of <code>nMat1</code> can be easily visualized. See Reference
-Manual for details. Note that the upper label of the legend changed to
-<code>&gt;6.6</code></p>
+values of <code>nMat1</code> can be easily visualized. See <a href="https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html">Reference
+Manual</a> for details. Note that the upper label of the legend changes
+to <code>&gt;6.6</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
@@ -160,7 +160,7 @@ of <code>colMap</code> is
 <span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p>Only set the upper bound, auto-detect the lower bound</p>
+<p>Only set the upper bound, auto-detect the lower bound.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
@@ -173,7 +173,7 @@ of <code>colMap</code> is
 <div class="section level3">
 <h3 id="manually-set-the-color-value-mapping">Manually set the color-value mapping<a class="anchor" aria-label="anchor" href="#manually-set-the-color-value-mapping"></a>
 </h3>
-<p>set colors and also value for the middle color</p>
+<p>Set colors and also the value for the middle color.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
@@ -182,7 +182,7 @@ of <code>colMap</code> is
 <span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span> <span class="op">=</span> <span class="cn">NA</span>, <span class="st">"green"</span> <span class="op">=</span> <span class="fl">5</span>, <span class="st">"red"</span> <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>Set upper and lower bounds</p>
+<p>Set the upper and lower bounds.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
@@ -191,20 +191,37 @@ of <code>colMap</code> is
 <span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"green"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, <span class="st">"green4"</span> <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>Set multiple color-value mappings</p>
+<p>Set multiple color-value mappings to visualize both global and local
+differences, for example, if the matrix contains two distant
+clusters.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  resetOutliers <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, <span class="st">"green4"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"yellow"</span> <span class="op">=</span> <span class="fl">10</span>, <span class="st">"red"</span> <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span>
+<span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"green4"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, <span class="st">"white"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"red"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="co">#cluster 1</span></span>
+<span>             <span class="st">"yellow"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"blue"</span> <span class="op">=</span> <span class="fl">18</span><span class="op">)</span> <span class="co">#cluster 2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>Adjust the legend to<br>
+* lengthen the portion for cluster 1 * shorten the portion between 1 and
+3 if majority of cluster 2 are in (3, 18) * increase the height of the
+whole legend to 4cm</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
+<span>  resetOutliers <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"green4"</span> <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, <span class="st">"white"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"red"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="co">#cluster 1</span></span>
+<span>             <span class="st">"yellow"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"blue"</span> <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>, <span class="co">#cluster 2</span></span>
+<span>  legendBreakDist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  legendHeight <span class="op">=</span> <span class="fl">4</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="display-cell-values-using-cellfun">Display cell values using <code>cellFun</code><a class="anchor" aria-label="anchor" href="#display-cell-values-using-cellfun"></a>
 </h3>
-<p>Show only values in (0.5, 1)</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Show only values in (0.5, 1).</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  resetOutliers <span class="op">=</span> <span class="cn">F</span>,</span>
@@ -212,42 +229,44 @@ of <code>colMap</code> is
 <span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  cellFun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0.5</span> <span class="op">&amp;&amp;</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span> <span class="va">x</span> <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>Display only the outliers, e.g. those outside of the range of
-<code>colMap</code></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code>colMap</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  resetOutliers <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  cluster_rows <span class="op">=</span> <span class="cn">F</span>, cluster_columns <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>,</span>
-<span>  cellFun <span class="op">=</span> <span class="st">"o"</span></span>
+<span>  cellFun <span class="op">=</span> <span class="st">"o"</span> <span class="co"># 'o' is hard-coded to represent outliers</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>Mark outliers as *; note by default <code>resetOutliers = TRUE</code>
-for numeric matrices.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>, cellFun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"*"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<p>Highlight outliers by black edge</p>
+<p>Mark outliers as <code>*</code>; note by default
+<code>resetOutliers = TRUE</code> for numeric matrices.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>, cellFun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"*"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p>Color outliers by black edge.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>, </span>
 <span>  cellFun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"o"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"rect"</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<p>Display H if cell values &gt; 2 and L if &lt; 0</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p>Display <code>H</code> if cell values &gt; 2 and <code>L</code> if
+&lt; 0.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  cellFun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span>      <span class="st">"H"</span></span>
 <span>    <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span> <span class="st">"L"</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<p>Add black edge if cell values &gt; 2 and display L if &lt; 0</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p>Add black edge if cell values &gt; 2 and display <code>L</code> if
+&lt; 0.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  cellFun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span></span>
@@ -255,38 +274,38 @@ for numeric matrices.</p>
 <span>    <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span> <span class="st">"L"</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="color-dendrograms-and-split-the-clusters">Color dendrograms and split the clusters<a class="anchor" aria-label="anchor" href="#color-dendrograms-and-split-the-clusters"></a>
 </h3>
 <p><code>nRowCluster</code> and <code>nColmCluster</code> specify the
-number of colors in the corresponding dendrograms</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+number of colors in the corresponding dendrograms.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  resetOutliers <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  nRowCluster <span class="op">=</span> <span class="fl">2</span>, nColmCluster <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  row_split <span class="op">=</span> <span class="fl">2</span>, column_split <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="integer-matrices">Integer matrices<a class="anchor" aria-label="anchor" href="#integer-matrices"></a>
 </h3>
 <p>If the number of unique values is greater than
-<code>intAsDiscreteCutoff</code>, the color mapping is continuous;
-otherwise, the mapping is discrete</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code>intAsDiscreteCutoff</code> whose default value is 6 in
+<code>cHeatmap</code> parameter settings, the color mapping is
+continuous; otherwise, the mapping is discrete.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mati</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">42</span>, <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>, name <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mati</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">42</span>, <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>, name <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-15-2.png" width="700"></p>
 <p>Set colors manually and show numbers 1, 3, and 5.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  colMap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"pink"</span> <span class="op">=</span> <span class="fl">2</span>, <span class="st">"yellow"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"green"</span> <span class="op">=</span> <span class="fl">4</span>, <span class="st">"green4"</span> <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
@@ -294,19 +313,19 @@ otherwise, the mapping is discrete</p>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="va">x</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="character-matrices">Character matrices<a class="anchor" aria-label="anchor" href="#character-matrices"></a>
 </h3>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">matc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, <span class="fl">42</span>, <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">matc</span>, name <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>Cluster the matrix by converting characters to their alphabetic
-orders, i.e.  a .. f to 1 .. 6, and manually set the color-value
-mappings.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+orders, i.e.  <code>a .. f</code> to <code>1 .. 6</code>, and manually
+set the color-value mappings.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">matc</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  nColmCluster <span class="op">=</span> <span class="fl">3</span>, nRowCluster <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -315,12 +334,12 @@ mappings.</p>
 <span>    <span class="st">"green"</span> <span class="op">=</span> <span class="st">"d"</span>, <span class="st">"green2"</span> <span class="op">=</span> <span class="st">"e"</span>, <span class="st">"green4"</span> <span class="op">=</span> <span class="st">"f"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="row-and-column-annotation">Row and column annotation<a class="anchor" aria-label="anchor" href="#row-and-column-annotation"></a>
 </h3>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create the matrix ----</span></span>
 <span><span class="va">mat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">42</span>, <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mat1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
@@ -342,9 +361,9 @@ mappings.</p>
 <span><span class="va">colDf</span> <span class="op">&lt;-</span> <span class="va">colDf</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mat1</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>, name <span class="op">=</span> <span class="st">"value"</span>, rowAnnoDf <span class="op">=</span> <span class="va">rowDf</span>, colmAnnoDf <span class="op">=</span> <span class="va">colDf</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-19-1.png" width="1008"></p>
-<p>Set some annotation colors manually</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-20-1.png" width="1008"></p>
+<p>Set some annotation colors manually.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  rowAnnoDf <span class="op">=</span> <span class="va">rowDf</span>, colmAnnoDf <span class="op">=</span> <span class="va">colDf</span>,</span>
@@ -354,28 +373,29 @@ mappings.</p>
 <span>    order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"blue4"</span> <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-20-1.png" width="1008"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-21-1.png" width="1008"></p>
 </div>
 <div class="section level3">
 <h3 id="concatenate-two-heatmaps">Concatenate two heatmaps<a class="anchor" aria-label="anchor" href="#concatenate-two-heatmaps"></a>
 </h3>
-<p>Set <code>drawHeatmap = F</code> to concatenate multiple heatmaps</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p>Set <code>drawHeatmap = F</code> to concatenate multiple
+heatmaps.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nMat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">uMat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">12</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">20</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">nMat1</span>, drawHeatmap <span class="op">=</span> <span class="cn">F</span>, name <span class="op">=</span> <span class="st">"nMat1"</span><span class="op">)</span></span>
 <span><span class="va">hm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">uMat1</span>, drawHeatmap <span class="op">=</span> <span class="cn">F</span>, name <span class="op">=</span> <span class="st">"uMat1"</span><span class="op">)</span></span>
 <span><span class="va">hm1</span> <span class="op">+</span> <span class="va">hm2</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-21-1.png" width="1008"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-22-1.png" width="1008"></p>
 </div>
 <div class="section level3">
 <h3 id="plot-inside-each-row-using-rowdraw">Plot inside each row using <code>rowDraw</code><a class="anchor" aria-label="anchor" href="#plot-inside-each-row-using-rowdraw"></a>
 </h3>
 <p>Here <code>painScore</code> of <code>patient 2</code> is plotted
-across visits. Its values are converted to the range of (0,1),
+across visits. Its values are transformed to the range of (0,1),
 representing relative values across visits.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nMat1</span>, <span class="va">uMat1</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mat1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"pt"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mat1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"visit"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span></span>
@@ -390,10 +410,11 @@ representing relative values across visits.</p>
 <span>    <span class="fl">2</span> <span class="co"># rows to be plotted</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-22-1.png" width="930"></p>
-<p>Plot both lines and points in multiple rows</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">painScore</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">28</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-23-1.png" width="930"></p>
+<p>Plot both lines and points in multiple rows.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># longitudinal scores of four patients</span></span>
+<span><span class="va">painScore</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">28</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mat1</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"value"</span>, cluster_columns <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  rowDraw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -401,11 +422,11 @@ representing relative values across visits.</p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"grid.points"</span>, size <span class="op">=</span> <span class="fl">0.5</span>, pch <span class="op">=</span> <span class="fl">15</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"grid.lines"</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="va">painScore</span>, <span class="co"># scores of four patients</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span>    <span class="va">painScore</span>, </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># row indices of the four patients in mat1</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-23-1.png" width="930"></p>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-24-1.png" width="930"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
