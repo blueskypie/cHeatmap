@@ -123,9 +123,10 @@ cHeatmap(mat1,
 ```
 
 Adjust the legend to    
-* lengthen the portion for cluster 1 
-* shorten the portion between 1 and 3 if majority of cluster 2 are in (3, 18)
-* increase the height of the whole legend to 4cm
+
+ * lengthen the portion for cluster 1 
+ * shorten the portion between 1 and 3 if majority of cluster 2 are in (3, 18)
+ * increase the height of the whole legend to 4cm
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(mat1,
   name = "value",
