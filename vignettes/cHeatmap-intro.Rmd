@@ -112,13 +112,14 @@ cHeatmap(mat1,
 ```
 
 Set multiple color-value mappings to visualize both global and local differences,
-for example, if the matrix contains two distant clusters.
+for example, if the matrix contains two distant clusters - `nMat1` and `uMat1`.
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
   colMap = c("green4" = -1, "white" = 0, "red" = 1, #cluster 1
-             "yellow" = 3, "blue" = 18) #cluster 2
+             "yellow" = 3, "blue" = 18), #cluster 2
+  column_split = c(rep("nMat1", 5), rep("uMat1", 2))
 )
 ```
 
@@ -133,6 +134,7 @@ cHeatmap(mat1,
   resetOutliers = F,
   colMap = c("green4" = -1, "white" = 0, "red" = 1, #cluster 1
              "yellow" = 3, "blue" = 18), #cluster 2
+  column_split = c(rep("nMat1", 5), rep("uMat1", 2)),
   legendBreakDist = c(1, 1, 0.5, 3),
   legendHeight = 4
 )
