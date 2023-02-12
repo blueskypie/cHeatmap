@@ -14,7 +14,7 @@ cHeatmap is a wrapper of the excellent
 [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html)
 function with additional functions and more friendly interface for some
 common tasks in my work, thus called the **c**onvenience **Heatmap**. I
-highly recommend reading [ComplexHeatmap
+highly recommend reading the [ComplexHeatmap
 book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html)
 for more advanced use.
 

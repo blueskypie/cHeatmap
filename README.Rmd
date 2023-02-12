@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 cHeatmap is a wrapper of the excellent [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html) function with additional functions and more friendly interface for some common 
 tasks in my work, thus called the **c**onvenience __Heatmap__. I highly recommend
-reading [ComplexHeatmap book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html)
+reading the [ComplexHeatmap book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html)
 for more advanced use.
 
 See [manual](https://blueskypie.github.io/cHeatmap/reference/index.html) and  [examples](https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html)

@@ -9,7 +9,7 @@ vignette: >
 
 
 ## Introduction
-cHeatmap is a wrapper of the excellent [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html) function with additional functions and more friendly interface for some common tasks in my work, thus called the **c**onvenience __Heatmap__. I highly recommend reading [ComplexHeatmap book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html) for more advanced use.
+cHeatmap is a wrapper of the excellent [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html) function with additional functions and more friendly interface for some common tasks in my work, thus called the **c**onvenience __Heatmap__. I highly recommend reading the [ComplexHeatmap book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html) for more advanced use.
 
 Here are the features:   
 
@@ -322,7 +322,7 @@ cHeatmap(mat1,
   rowDraw = list(
     list("grid.lines", col = "black", lwd = 2),
     matrix(painScore, nrow = 1), # data to be plotted
-    2 # rows to be plotted
+    2 # plot at the 2nd row of mat1
   )
 )
 ```
