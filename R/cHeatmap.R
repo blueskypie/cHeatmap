@@ -234,10 +234,10 @@ cHeatmap <- function(mat1,
       resetOutliers <- colMap[1] > min1 || colMap[cmLen] < max1
     }
 
-    if ('white' %in% names(colMap)) {
-      if (is.na(colMap['white']) ||
-          colMap['white'] < colMap[1] || colMap['white'] > colMap[cmLen]) {
-        colMap['white'] <- mean(colMap[c(1, cmLen)])
+    if (length(colMap)==3) {
+      if (is.na(colMap[2]) ||
+          colMap[2] < colMap[1] || colMap[2] > colMap[cmLen]) {
+        colMap[2] <- mean(colMap[c(1, cmLen)])
       }
     }
 
@@ -248,6 +248,18 @@ cHeatmap <- function(mat1,
       mat1[which(mat1 < colMap[1])] <- colMap[1]
     }
 
+
+    # if only one unique value remaining after removing outliers, the nearest
+    #  outliers is used as one of the two ends of colMap
+    if(colMap[1]==colMap[cmLen]){
+      mat2 <- abs(mat0) - abs(colMap[1])
+      inds0 <- which(mat2==min(mat2[mat2!=0],na.rm = T))
+      if(mat0[inds0][1]<colMap[1]) {
+        colMap[1] <- mat0[inds0][1]
+      }else{
+        colMap[cmLen] <- mat0[inds0][1]
+      }
+    }
 
     # set legend to be used later and pass colMap info to a function
     legendBounds <- list(at = sapply(colMap, function(x) {
@@ -289,7 +301,7 @@ cHeatmap <- function(mat1,
         }
       }
 
-      if (is.numeric(k)) {
+      if (is.numeric(k) && is.finite(k)) {
         nDig <- ifelse(abs(k) >= 10 ||
                          is.integer(k), 0, 1) #number decimal digits
         k <- format(round(k, digits = nDig), nsmall = nDig)
