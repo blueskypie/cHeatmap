@@ -132,7 +132,7 @@
 #' @return a [ComplexHeatmap::HeatmapList-class] object if drawHeatmap, or
 #'         a [ComplexHeatmap::Heatmap-class] object otherwise.
 #' @export
-#' @examples #none for now.
+#' @examples # examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
 cHeatmap <- function(mat1,
                      whiteValue = NA,
                      colMap = c("green4" = NA,
@@ -224,6 +224,10 @@ cHeatmap <- function(mat1,
           colMap[1] <- min(mat1[nolInds], na.rm = T)
         if (is.na(colMap[cmLen]))
           colMap[cmLen] <- max(mat1[nolInds], na.rm = T)
+
+        if(colMap[1]==colMap[cmLen]){
+          stop('After resetOutliers, only one unique value remains. Please set resetOutliers = F')
+        }
       } else{
         if (is.na(colMap[1]))
           colMap[1] <- min1
