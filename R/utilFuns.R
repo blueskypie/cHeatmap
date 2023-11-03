@@ -145,3 +145,63 @@ gridFuns <- function(x, y, fun1) {
     ), alist))
   }
 }
+
+
+
+#' add a distinct color for a specific value in the legend color map
+#'
+#' @param ColMap a named numeric vector,e.g. `c('yellow'=0,'red'=8.99,'green4*'=9)`
+#' @param s1,s2 portion of the whole legend; they are used to control the width
+#'   of the color band for the specific value; for example
+#'   - `c('yellow'=0,'red'=8.95,'green4*'=9)`, the width is `8.95*(1+s2) to 9`
+#'   - `c('yellow*'=0,'red'=0.05,'green4'=9)`, the width is `0 to 0.05*(1-s2)`
+#'   - `c('yellow'=0,'red*'=1,'green4'=9)`, the width is `1*(1-s1) to 1*(1+s1)`
+#' @return a list of two numeric vectors
+#'   - colmap: the adjusted color maps
+#'   - breaks: the breaks for `colmap`
+#'
+#' @examples
+addSingleValue=function(ColMap,s1=0.05,s2=0.001){
+  re1 <- ColMap
+  inds <- grep('*',names(ColMap),fixed = T)
+  breakAt <- unname(ColMap)
+
+  if(length(inds)>0){
+    names(ColMap) <- sub('*','',names(ColMap),fixed = T)
+
+    cmList=list()
+    cml=length(ColMap)
+    for (i in 1:length(inds)) {
+      ind=inds[i]
+      ColMap3=ColMap
+      ColMap2 <- c(ColMap[ind],ColMap[ind])
+
+      if(ind==1){
+        ColMap2[2] <- ColMap[2]*(ifelse(ColMap[2]>0, 1-s2, 1+s2))
+        ColMap3 <- c(ColMap2,ColMap[(ind+1):cml])
+
+        breakAt <- breakAt[-2]
+      }else if(ind==cml){
+        ColMap2[1] <- ColMap[ind-1]*(ifelse(ColMap[ind-1]>0, 1+s2, 1-s2))
+        ColMap3 <- c(ColMap[1:(ind-1)],ColMap2)
+
+        breakAt <- breakAt[-(cml-1)]
+      }else{
+        cf <- circlize::colorRamp2(ColMap[c(ind-1,ind+1)],names(ColMap[c(ind-1,ind+1)]))
+        ColMap2 <- c(ColMap[ind-1],ColMap2,ColMap[ind+1])
+        ColMap2[1] <- unname(ColMap[ind])*(1-s1-s2)
+        ColMap2[2] <- ColMap[ind]*(1-s1)
+        ColMap2[3] <- ColMap[ind]*(1+s1)
+        ColMap2[4] <- unname(ColMap[ind])*(1+s1+s2)
+        names(ColMap2)[c(1,4)] <- cf(unname(ColMap[ind]))
+        ColMap3 <- c(ColMap[1:(ind-1)],ColMap2,ColMap[(ind+1):cml])
+      }
+
+      cmList[[i]]=ColMap3
+    }
+
+    re1 <- sort(unlist(cmList))
+  }
+
+  list(colmap=re1,breaks=breakAt)
+}

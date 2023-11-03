@@ -94,6 +94,11 @@
 #'       more complicated cell drawing, use the parameter `cell_fun` of
 #'       [ComplexHeatmap::Heatmap()] directly.
 
+#' @param cfMat `mat1`; the matrix for the *cells* in `cellFun`; it should have
+#'    the same dimension as `mat1`. It gives the option of using a different
+#'    matrix for the evaluation of `cellFun` and display its results on top of
+#'    the heatmap from `mat1`.
+
 #' @param rowDraw list, `NULL`; it is used to plot across rows. The list should
 #'        contain the following item:
 #'    1. the function in the `grid` package to make the draw and its parameters;
@@ -117,7 +122,7 @@
 #'
 #'    See the parameter `layer_fun` of [ComplexHeatmap::Heatmap()] for more
 #'       complex drawing across a block of cells.
-#' @param legendBreakDist numeric vector, NULL; set the distance between two breaks in
+#' @param legendBreakDist numeric vector, NULL; set the distance portion between two breaks in
 #'        the legend and can be the following values:
 #'    * `NULL`; the numeric distance among breaks
 #'    * `1`; equal distance among breaks
@@ -152,6 +157,7 @@ cHeatmap <- function(mat1,
                      resetOutliers = is.numeric(mat1),
                      clusterUsingResetValues = FALSE,
                      cellFun = NULL,
+                     cfMat = mat1,
                      cellFontSize = 9,
                      cellFontColor = 'black',
                      rowDraw = NULL,
@@ -265,18 +271,18 @@ cHeatmap <- function(mat1,
       }
     }
 
-    # set legend to be used later and pass colMap info to a function
+    argList$col <- circlize::colorRamp2(unname(colMap), names(colMap))
+    #set legend to be used later and pass colMap info to a function
     legendBounds <- list(at = sapply(colMap, function(x) {
       round(x, nRoundDigits(x))
     }))
+    #legendBounds$at <- unique(legendBounds$at)
     lbLabel <- as.character(legendBounds$at)
     if (colMap[1] > min1)
       lbLabel[1] <- paste0('<', lbLabel[1])
     if (colMap[cmLen] < max1)
       lbLabel[cmLen] <- paste0('>', lbLabel[cmLen])
     legendBounds$labels <- lbLabel
-
-    argList$col <- circlize::colorRamp2(legendBounds[['at']], names(colMap))
   }
 
 
@@ -285,21 +291,21 @@ cHeatmap <- function(mat1,
   # display cell values -----
   if (!is.null(cellFun)) {
     argList$cell_fun <- function(j, i, x, y, width, height, fill) {
-      k <- NULL
+      k <- NULL # the char to display
 
       if (is.character(cellFun)) {
         if (cellFun[1] == 'o') {
           #outliers
-          if (mat0[i, j] > colMap[cmLen] || mat0[i, j] < colMap[1]) {
-            k <- ifelse(length(cellFun) > 1, cellFun[2], mat0[i, j])
+          if (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1]) {
+            k <- ifelse(length(cellFun) > 1, cellFun[2], cfMat[i, j])
           }
         }
       } else if (is.function(cellFun)) {
-        k <- cellFun(mat0[i, j])
+        k <- cellFun(cfMat[i, j])
       } else if (is.list(cellFun)) {
         if (cellFun[[1]] == 'o') {
           #outliers
-          if (mat0[i, j] > colMap[cmLen] || mat0[i, j] < colMap[1]) {
+          if (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1]) {
             k <- cellFun[-1]
           }
         }

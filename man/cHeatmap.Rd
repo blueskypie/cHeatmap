@@ -22,6 +22,7 @@ cHeatmap(
   resetOutliers = is.numeric(mat1),
   clusterUsingResetValues = FALSE,
   cellFun = NULL,
+  cfMat = mat1,
   cellFontSize = 9,
   cellFontColor = "black",
   rowDraw = NULL,
@@ -132,6 +133,11 @@ The \code{'o'} and \code{'rect'} are hard coded cases for usage convenience; for
 more complicated cell drawing, use the parameter \code{cell_fun} of
 \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} directly.}
 
+\item{cfMat}{\code{mat1}; the matrix for the \emph{cells} in \code{cellFun}; it should have
+the same dimension as \code{mat1}. It gives the option of using a different
+matrix for the evaluation of \code{cellFun} and display its results on top of
+the heatmap from \code{mat1}.}
+
 \item{cellFontSize, cellFontColor}{numeric, \code{9}; character, \code{"white"}; format
 text displayed in heatmap cells.}
 
@@ -160,7 +166,7 @@ if \code{NULL}, it means all the rows of mat1 and assumes
 See the parameter \code{layer_fun} of \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} for more
 complex drawing across a block of cells.}
 
-\item{legendBreakDist}{numeric vector, NULL; set the distance between two breaks in
+\item{legendBreakDist}{numeric vector, NULL; set the distance portion between two breaks in
 the legend and can be the following values:
 \itemize{
 \item \code{NULL}; the numeric distance among breaks
@@ -197,5 +203,5 @@ that the color scale of the heatmap is not dominated by those outliers
 }
 }
 \examples{
-#none for now.
+# examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
 }
