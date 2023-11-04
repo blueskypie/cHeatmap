@@ -175,7 +175,7 @@ cHeatmap <- function(mat1,
   mat0 <- mat1
   cmLen <- length(colMap)
   legendBounds <- NULL
-  isDiscrete <- is.character(mat1) ||
+  isDiscrete <- is.character(mat1) ||  is.logical(mat1) ||
     (is.integer(mat1) &&
        length(unique(as.vector(mat1))) < intAsDiscreteCutoff)
 
