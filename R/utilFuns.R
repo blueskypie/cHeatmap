@@ -160,7 +160,7 @@ gridFuns <- function(x, y, fun1) {
 #'   - colmap: the adjusted color maps
 #'   - breaks: the breaks for `colmap`
 #'
-#' @examples
+#' @examples # examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
 addSingleValue=function(ColMap,s1=0.05,s2=0.001){
   re1 <- ColMap
   inds <- grep('*',names(ColMap),fixed = T)

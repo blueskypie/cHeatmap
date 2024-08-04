@@ -28,6 +28,8 @@ cHeatmap(
   rowDraw = NULL,
   legendBreakDist = NULL,
   legendHeight = NULL,
+  legendTicks = NULL,
+  legendTickLabels = NULL,
   ...
 )
 }
@@ -178,6 +180,11 @@ for example, \code{c(1, 1, 0.5, 3)} for
 }}
 
 \item{legendHeight}{numeric, NULL; height of the vertical legend in cm.}
+
+\item{legendTicks}{numeric, NULL; the legend tick; default is the \code{unname(colMap)}}
+
+\item{legendTickLabels}{character, NULL; the label of legend tick; should be the
+same length as the \code{legendTicks}; use '' to skip a tick.}
 
 \item{...}{passed to \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 }

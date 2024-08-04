@@ -131,6 +131,9 @@
 #'       for example, `c(1, 1, 0.5, 3)` for
 #'    `colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)`
 #' @param legendHeight numeric, NULL; height of the vertical legend in cm.
+#' @param legendTicks numeric, NULL; the legend tick; default is the `unname(colMap)`
+#' @param legendTickLabels character, NULL; the label of legend tick; should be the
+#'   same length as the `legendTicks`; use '' to skip a tick.
 
 #' @param ... passed to [ComplexHeatmap::Heatmap()]
 #'
@@ -163,6 +166,8 @@ cHeatmap <- function(mat1,
                      rowDraw = NULL,
                      legendBreakDist = NULL,
                      legendHeight = NULL,
+                     legendTicks = NULL,
+                     legendTickLabels = NULL,
                      ...) {
   if (is.data.frame(mat1))
     mat1 <- as.matrix(mat1)
@@ -183,7 +188,7 @@ cHeatmap <- function(mat1,
   if (isDiscrete) {
     resetOutliers <- F
     uniItems <- sort(unique(as.vector(mat1)))
-    uniItems <- uniItems[!is.na(uniItems)]
+    #uniItems <- uniItems[!is.na(uniItems)]
 
     if (is.character(mat1) &&
         (!is.null(nRowCluster) || !is.null(nColmCluster))) {
@@ -196,8 +201,8 @@ cHeatmap <- function(mat1,
       rm(m1)
     }
 
-    argList$heatmap_legend_param <- c(argList$heatmap_legend_param, list(labels =
-                                                                           uniItems))
+    argList$heatmap_legend_param <- c(argList$heatmap_legend_param,
+                                      list(labels =as.character(uniItems)))
 
     # color mapping
     argList$col <- `if`(is.na(colMap[1]),
@@ -273,18 +278,21 @@ cHeatmap <- function(mat1,
 
     argList$col <- circlize::colorRamp2(unname(colMap), names(colMap))
     #set legend to be used later and pass colMap info to a function
-    legendBounds <- list(at = sapply(colMap, function(x) {
-      round(x, nRoundDigits(x))
-    }))
-    #legendBounds$at <- unique(legendBounds$at)
-    lbLabel <- as.character(legendBounds$at)
-    if (colMap[1] > min1)
-      lbLabel[1] <- paste0('<', lbLabel[1])
-    if (colMap[cmLen] < max1)
-      lbLabel[cmLen] <- paste0('>', lbLabel[cmLen])
-    legendBounds$labels <- lbLabel
-  }
+    if(is.null(legendTicks)) {
+      legendTicks = sapply(colMap, function(x) {
+        round(x, nRoundDigits(x))
+      })
+    }
 
+    if(is.null(legendTickLabels)) {
+      legendTickLabels <- as.character(legendTicks)
+      if (colMap[1] > min1)
+        legendTickLabels[1] <- paste0('<', legendTickLabels[1])
+      if (colMap[cmLen] < max1)
+        legendTickLabels[cmLen] <- paste0('>', legendTickLabels[cmLen])
+    }
+
+    legendBounds <- list(at = legendTicks,labels = legendTickLabels)
 
 
 
@@ -495,4 +503,5 @@ cHeatmap <- function(mat1,
                          merge_legend = TRUE,
                          heatmap_legend_side = legendPos[1])
   }else(ht1)
+  }
 }

@@ -27,3 +27,6 @@ a list of two numeric vectors
 \description{
 add a distinct color for a specific value in the legend color map
 }
+\examples{
+# examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
+}

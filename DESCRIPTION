@@ -1,6 +1,6 @@
 Package: cHeatmap
 Title: Plot Heatmaps
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     person("Jike", "Cui", , "16052330+blueskypie@users.noreply.github.com", 
     role = c("aut", "cre"))
@@ -8,7 +8,7 @@ Description: This is a wrapper of the ComplexHeatmap::Heatmap() with additional 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Imports: 
     circlize,
     ComplexHeatmap,

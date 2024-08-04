@@ -1,48 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/404.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/index.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/getDistinctColors.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/getOutliersInd.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/gridFuns.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/nRoundDigits.html</loc>
-  </url>
-  <url>
-    <loc>https://blueskypie.github.io/cHeatmap/reference/vecSwitch.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/cHeatmap-intro.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/addSingleValue.html</loc></url>
+<url><loc>/reference/cHeatmap.html</loc></url>
+<url><loc>/reference/getDistinctColors.html</loc></url>
+<url><loc>/reference/getOutliersInd.html</loc></url>
+<url><loc>/reference/gridFuns.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/nRoundDigits.html</loc></url>
+<url><loc>/reference/vecSwitch.html</loc></url>
 </urlset>
+
