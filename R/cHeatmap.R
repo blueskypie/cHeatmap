@@ -45,7 +45,7 @@
 #' @param rowAnnoDf,colmAnnoDf matrix or data frame, `NULL`; annotation for row
 #'        or column. The rows of the `rowAnnoDf`/`colmAnnoDf` should be of the same
 #'        length and order of the row/column of `mat1`.
-#' @param rowAnnoPara,colmAnnoPara list, `list(na_col = "white")`; passed to
+#' @param rowAnnoPara,colmAnnoPara list, `list(na_col = "grey")`; passed to
 #'        [ComplexHeatmap::rowAnnotation()] or [ComplexHeatmap::columnAnnotation()]
 #' @param rowAnnoColMap,colmAnnoColMap list, `list()`; the color mappings for row and column
 #'        annotations are handled automatically. Use this parameter to manually
@@ -152,8 +152,8 @@ cHeatmap <- function(mat1,
                      nColmCluster = NULL,
                      rowAnnoDf = NULL,
                      colmAnnoDf = NULL,
-                     rowAnnoPara = list(na_col = "white"),
-                     colmAnnoPara = list(na_col = "white"),
+                     rowAnnoPara = list(na_col = "grey"),
+                     colmAnnoPara = list(na_col = "grey"),
                      rowAnnoColMap = list(),
                      colmAnnoColMap = list(),
                      drawHeatmap = T,

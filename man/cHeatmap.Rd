@@ -14,8 +14,8 @@ cHeatmap(
   nColmCluster = NULL,
   rowAnnoDf = NULL,
   colmAnnoDf = NULL,
-  rowAnnoPara = list(na_col = "white"),
-  colmAnnoPara = list(na_col = "white"),
+  rowAnnoPara = list(na_col = "grey"),
+  colmAnnoPara = list(na_col = "grey"),
   rowAnnoColMap = list(),
   colmAnnoColMap = list(),
   drawHeatmap = T,
@@ -75,7 +75,7 @@ To also split, i.e. columns, set \code{column_split = nColmCluster}.}
 or column. The rows of the \code{rowAnnoDf}/\code{colmAnnoDf} should be of the same
 length and order of the row/column of \code{mat1}.}
 
-\item{rowAnnoPara, colmAnnoPara}{list, \code{list(na_col = "white")}; passed to
+\item{rowAnnoPara, colmAnnoPara}{list, \code{list(na_col = "grey")}; passed to
 \code{\link[ComplexHeatmap:rowAnnotation]{ComplexHeatmap::rowAnnotation()}} or \code{\link[ComplexHeatmap:columnAnnotation]{ComplexHeatmap::columnAnnotation()}}}
 
 \item{rowAnnoColMap, colmAnnoColMap}{list, \code{list()}; the color mappings for row and column
