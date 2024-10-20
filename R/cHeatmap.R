@@ -518,7 +518,8 @@ cHeatmap <- function(mat1,
     if (drawHeatmap) {
       lgd=list()
       if(addLgd4NA){
-        lgd[[1]]=Legend(labels = 'NA',type = 'grid',legend_gp = gpar(fill = 'grey',col='grey'))
+        lgd[[1]]=ComplexHeatmap::Legend(labels = 'NA',type = 'grid',
+                                        legend_gp = grid::gpar(fill = NA.color,col=NA.color))
       }
       ComplexHeatmap::draw(ht1, heatmap_legend_list =lgd,
                            merge_legend = TRUE,
