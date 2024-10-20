@@ -21,6 +21,11 @@ Here are the features:
  5. Discrete color-value mapping for integer matrices containing few unique values 
  6. Clustering of the character matrix based on the orders of characters
  7. Interface to plot across rows
+ 8. Handling of edge cases:
+   * Inf and -Inf values in input matrix cause errors in `stats::dist()` for
+     clustering, they are reset as NA.
+   * If missing values are present in the input matrix or row and column
+     annotations, a legend for missing value is added.
 
 ## Examples
 ### Reset the value of outliers
@@ -113,14 +118,22 @@ cHeatmap(mat1,
 
 Set multiple color-value mappings to visualize both global and local differences,
 for example, if the matrix contains two distant clusters - `nMat1` and `uMat1`.
+
+Also note that `Inf` is reset to `NA` to avoid error in clustering and a legend 
+for missing values is added automatically.
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
-cHeatmap(mat1,
+# create an Inf value
+mat2=mat1
+mat2[2,2]=Inf
+
+cHeatmap(mat2,
   name = "value",
   resetOutliers = F,
   colMap = c("green4" = -1, "white" = 0, "red" = 1, #cluster 1
              "yellow" = 3, "blue" = 18), #cluster 2
   column_split = c(rep("nMat1", 5), rep("uMat1", 2))
 )
+rm(mat2)
 ```
 
 Adjust the legend to    
@@ -137,6 +150,25 @@ cHeatmap(mat1,
   column_split = c(rep("nMat1", 5), rep("uMat1", 2)),
   legendBreakDist = c(1, 1, 0.5, 3),
   legendHeight = 4
+)
+```
+
+
+Set distinct color to different numerical ranges
+```{r, fig.keep = 'last', fig.asp = 5/7 }
+lt=c(-1,0,1,3,6,9,12,15,18)
+cHeatmap(mat1,
+         name = "value",
+         resetOutliers = F,
+         colMap = c(
+           green = -1, green4 = 0, 
+           red = 10e-6, red4=1,
+           yellow=1+10e-6,yellow4 = 3, 
+           blue=3+10e-6, blue4 = 18), 
+         legendTicks = lt,
+         legendBreakDist = rep.int(1,length(lt)-1),
+         legendHeight = 4,
+         column_split = c(rep("nMat1", 5), rep("uMat1", 2))
 )
 ```
 
