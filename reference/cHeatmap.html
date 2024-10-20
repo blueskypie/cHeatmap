@@ -9,7 +9,7 @@ functions and more friendly interfaces for some common tasks in plotting heatmap
 
     <a class="navbar-brand me-2" href="../index.html">cHeatmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,7 +139,7 @@ length and order of the row/column of <code>mat1</code>.</p></dd>
 
 
 <dt id="arg-rowannopara-colmannopara">rowAnnoPara, colmAnnoPara<a class="anchor" aria-label="anchor" href="#arg-rowannopara-colmannopara"></a></dt>
-<dd><p>list, <code>list(na_col = "grey")</code>; passed to
+<dd><p>list, <code>list(na_col = NA.color)</code>; passed to
 <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/rowAnnotation.html" class="external-link">ComplexHeatmap::rowAnnotation()</a></code> or <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/columnAnnotation.html" class="external-link">ComplexHeatmap::columnAnnotation()</a></code></p></dd>
 
 
@@ -236,9 +236,7 @@ complex drawing across a block of cells.</p></dd>
 the legend and can be the following values:</p><ul><li><p><code>NULL</code>; the numeric distance among breaks</p></li>
 <li><p><code>1</code>; equal distance among breaks</p></li>
 <li><p>a numeric vector to represent the relative length of each section between
-two breaks; its length should be <code>length(colMap) - 1</code>;
-for example, <code>c(1, 1, 0.5, 3)</code> for
-<code>colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)</code></p></li>
+two breaks; its length should be <code>length(legendTicks) - 1</code>;</p></li>
 </ul></dd>
 
 
@@ -247,7 +245,8 @@ for example, <code>c(1, 1, 0.5, 3)</code> for
 
 
 <dt id="arg-legendticks">legendTicks<a class="anchor" aria-label="anchor" href="#arg-legendticks"></a></dt>
-<dd><p>numeric, NULL; the legend tick; default is the <code>unname(colMap)</code></p></dd>
+<dd><p>numeric, NULL; the legend tick; default is the <code>unname(colMap)</code>
+but can be any numeric vector whose range is within <code>unname(colMap)</code>.</p></dd>
 
 
 <dt id="arg-legendticklabels">legendTickLabels<a class="anchor" aria-label="anchor" href="#arg-legendticklabels"></a></dt>
