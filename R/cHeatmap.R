@@ -13,8 +13,16 @@
 #' 5. Discrete color-value mapping for integer matrices containing few unique values
 #' 6. Clustering of the character matrix based on the orders of characters
 #' 7. Interface to plot across rows
+#' 8. Handling of edge cases:
+#'   * Inf and -Inf values in input matrix cause errors in `stats::dist()` for
+#'     clustering, they are reset as NA.
+#'   * If missing values are present in the input matrix or row and column
+#'     annotations, a legend for missing value is added.
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
+#' @param NA.color character,'grey'; the color for missing values in `mat1`,
+#'        `rowAnnoDf`, or `colmAnnoDf`. If missing values are present, a square
+#'        of `NA.color` will be added to the legend.
 #' @param whiteValue Numeric, `NULL`; it is the value of the white or middle color
 #'        in the legend if `mat1` is numeric and `colMap` consists of three colors.
 #' @param colMap A vector, `c("green4"=NA, "white"=whiteValue, "red"=NA)`;
@@ -142,6 +150,7 @@
 #' @export
 #' @examples # examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
 cHeatmap <- function(mat1,
+                     NA.color='grey',
                      whiteValue = NA,
                      colMap = c("green4" = NA,
                                 "white" = whiteValue,
@@ -152,8 +161,8 @@ cHeatmap <- function(mat1,
                      nColmCluster = NULL,
                      rowAnnoDf = NULL,
                      colmAnnoDf = NULL,
-                     rowAnnoPara = list(na_col = "grey"),
-                     colmAnnoPara = list(na_col = "grey"),
+                     rowAnnoPara = list(na_col = NA.color),
+                     colmAnnoPara = list(na_col = NA.color),
                      rowAnnoColMap = list(),
                      colmAnnoColMap = list(),
                      drawHeatmap = T,
@@ -169,13 +178,21 @@ cHeatmap <- function(mat1,
                      legendTicks = NULL,
                      legendTickLabels = NULL,
                      ...) {
-  if (is.data.frame(mat1))
-    mat1 <- as.matrix(mat1)
-  argList <- list(
+
+  argList <- list( #arguments for ComplexHeatmap::Heatmap()
+    na_col=NA.color,
     show_parent_dend_line = F,
     # add white edge for each cell
     rect_gp = grid::gpar(col = "white", lwd = 0.1)
   )
+
+  if (is.data.frame(mat1))  mat1 <- as.matrix(mat1)
+
+  #clustering can handle NA but not Inf
+  if(is.numeric(mat1)) mat1[which(!is.finite(mat1))]=NA
+
+  # add a legend for missing values in mat1 or annotation
+  addLgd4NA=hasInfinite(mat1) || hasInfinite(rowAnnoDf) || hasInfinite(colmAnnoDf)
 
   mat0 <- mat1
   cmLen <- length(colMap)
@@ -296,212 +313,217 @@ cHeatmap <- function(mat1,
 
 
 
-  # display cell values -----
-  if (!is.null(cellFun)) {
-    argList$cell_fun <- function(j, i, x, y, width, height, fill) {
-      k <- NULL # the char to display
+    # display cell values -----
+    if (!is.null(cellFun)) {
+      argList$cell_fun <- function(j, i, x, y, width, height, fill) {
+        k <- NULL # the char to display
 
-      if (is.character(cellFun)) {
-        if (cellFun[1] == 'o') {
-          #outliers
-          if (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1]) {
-            k <- ifelse(length(cellFun) > 1, cellFun[2], cfMat[i, j])
+        if (is.character(cellFun)) {
+          if (cellFun[1] == 'o') {
+            #outliers
+            if (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1]) {
+              k <- ifelse(length(cellFun) > 1, cellFun[2], cfMat[i, j])
+            }
+          }
+        } else if (is.function(cellFun)) {
+          k <- cellFun(cfMat[i, j])
+        } else if (is.list(cellFun)) {
+          if (cellFun[[1]] == 'o') {
+            #outliers
+            if (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1]) {
+              k <- cellFun[-1]
+            }
           }
         }
-      } else if (is.function(cellFun)) {
-        k <- cellFun(cfMat[i, j])
-      } else if (is.list(cellFun)) {
-        if (cellFun[[1]] == 'o') {
-          #outliers
-          if (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1]) {
-            k <- cellFun[-1]
-          }
+
+        if (is.numeric(k) && is.finite(k)) {
+          nDig <- ifelse(abs(k) >= 10 ||
+                           is.integer(k), 0, 1) #number decimal digits
+          k <- format(round(k, digits = nDig), nsmall = nDig)
         }
-      }
 
-      if (is.numeric(k) && is.finite(k)) {
-        nDig <- ifelse(abs(k) >= 10 ||
-                         is.integer(k), 0, 1) #number decimal digits
-        k <- format(round(k, digits = nDig), nsmall = nDig)
-      }
+        if (is.character(k)) {
+          grid::grid.text(k,
+                          x,
+                          y,
+                          gp = grid::gpar(fontsize = cellFontSize, col = cellFontColor))
+        }
 
-      if (is.character(k)) {
-        grid::grid.text(k,
-                        x,
-                        y,
-                        gp = grid::gpar(fontsize = cellFontSize, col = cellFontColor))
-      }
-
-      if (is.list(k)) {
-        if (k[[1]] == 'rect') {
-          if (is.null(k$fill))
-            k$fill <- NA
-          grid::grid.rect(
-            x = x,
-            y = y,
-            width = width,
-            height = height,
-            gp = do.call(grid::gpar, k[-1])
-          ) #list()
+        if (is.list(k)) {
+          if (k[[1]] == 'rect') {
+            if (is.null(k$fill))
+              k$fill <- NA
+            grid::grid.rect(
+              x = x,
+              y = y,
+              width = width,
+              height = height,
+              gp = do.call(grid::gpar, k[-1])
+            ) #list()
+          }
         }
       }
     }
-  }
 
 
 
-  # draw row figures ------
-  if (!is.null(rowDraw)) {
-    argList$layer_fun <- function(j, i, x, y, w, h, fill) {
-      #browser()
-      # layer_fun to plot line and point in each cell using data in mat1
-      nRow <- length(unique(i)) #nRow in each slice
-      #the start and end mark of each row in y-axis
-      # i.e. for 5 rows, ry is 0.0 0.2 0.4 0.6 0.8 1.0
-      ry <- seq(1, 0, -1 / nRow)
+    # draw row figures ------
+    if (!is.null(rowDraw)) {
+      argList$layer_fun <- function(j, i, x, y, w, h, fill) {
+        #browser()
+        # layer_fun to plot line and point in each cell using data in mat1
+        nRow <- length(unique(i)) #nRow in each slice
+        #the start and end mark of each row in y-axis
+        # i.e. for 5 rows, ry is 0.0 0.2 0.4 0.6 0.8 1.0
+        ry <- seq(1, 0, -1 / nRow)
 
-      rowIDs <- `if`(length(rowDraw) == 2, 1:nrow(mat1), rowDraw[[3]])
-      for (rInd in 1:nRow) {
-        # rInd: row index in the current slice
-        # i[rInd]: row index in the original matrix
-        # k: value of row i[rInd] of mat1\
-        if (i[rInd] %in% rowIDs) {
-          k <- which(rowIDs == i[rInd])
-          Ys <- rowDraw[[2]][k, ]
-          inds <- which(!is.na(Ys))
+        rowIDs <- `if`(length(rowDraw) == 2, 1:nrow(mat1), rowDraw[[3]])
+        for (rInd in 1:nRow) {
+          # rInd: row index in the current slice
+          # i[rInd]: row index in the original matrix
+          # k: value of row i[rInd] of mat1\
+          if (i[rInd] %in% rowIDs) {
+            k <- which(rowIDs == i[rInd])
+            Ys <- rowDraw[[2]][k, ]
+            inds <- which(!is.na(Ys))
 
-          if (length(inds) > 0) {
-            Ys <- Ys[inds]
-            Xs <- unique(x)[inds] #x coordinates of Ys in current slice
-            Ys <- scales::rescale(Ys, c(ry[rInd + 1], ry[rInd]))
+            if (length(inds) > 0) {
+              Ys <- Ys[inds]
+              Xs <- unique(x)[inds] #x coordinates of Ys in current slice
+              Ys <- scales::rescale(Ys, c(ry[rInd + 1], ry[rInd]))
 
-            #browser()
-            for (f in rowDraw[1]) {
-              if (is.list(f[[1]])) {
-                # >1 grid.functions, i.e. list of list
-                sapply(f, gridFuns, x = Xs, y = Ys)
-              } else{
-                gridFuns(Xs, Ys, f)
+              #browser()
+              for (f in rowDraw[1]) {
+                if (is.list(f[[1]])) {
+                  # >1 grid.functions, i.e. list of list
+                  sapply(f, gridFuns, x = Xs, y = Ys)
+                } else{
+                  gridFuns(Xs, Ys, f)
+                }
               }
             }
           }
         }
       }
     }
-  }
 
 
 
-  # clustering and color dendrogram ----
-  if (!is.null(nRowCluster)) {
-    row_dend <- stats::as.dendrogram(stats::hclust(stats::dist(mat1))) # row clustering
-    argList$cluster_rows <- dendextend::color_branches(row_dend, k = nRowCluster)
-  }
-  if (!is.null(nColmCluster)) {
-    colm_dend <- stats::as.dendrogram(stats::hclust(stats::dist(t(mat1)))) # row clustering
-    argList$cluster_columns <- dendextend::color_branches(colm_dend, k = nColmCluster)
-  }
-
-
-  # row annotation -----
-  if (!is.null(rowAnnoDf)) {
-    #rows must be at the same order as the row of mat1
-    stopifnot(nrow(rowAnnoDf) == nrow(mat1))
-    if (!is.null(rownames(rowAnnoDf)) && !is.null(rownames(mat1))) {
-      stopifnot(all(rownames(rowAnnoDf) == rownames(mat1)))
-    }
-
-    colList <- list()
-    for (i in colnames(rowAnnoDf)) {
-      if (is.factor(rowAnnoDf[, i]))
-        rowAnnoDf[, i] <- as.character(rowAnnoDf[, i])
-
-      if (is.character(rowAnnoDf[, i])) {
-        if (i %in% names(rowAnnoColMap)) {
-          uniCols <- vecSwitch(rowAnnoColMap[[i]])
-        } else{
-          # handled here instead of passing to ComplexHeatmap::Heatmap() to
-          # handle since the colorss it produces are not distinct enough.
-          uniVals <- unique(rowAnnoDf[, i])
-          uniVals[is.na(uniVals)] <- 'NA'
-          #uniCols=randomcoloR::distinctColorPalette(length(uniVals),runTsne = T)
-          uniCols <- getDistinctColors(length(uniVals))
-          names(uniCols) <- uniVals
-        }
-        colList[[i]] <- uniCols
-      } else if (is.numeric(rowAnnoDf[, i]) &&
-                 i %in% names(rowAnnoColMap)) {
-        colList[[i]] <- circlize::colorRamp2(rowAnnoColMap[[i]], names(rowAnnoColMap[[i]]))
+    # row annotation -----
+    if (!is.null(rowAnnoDf)) {
+      #rows must be at the same order as the row of mat1
+      stopifnot(nrow(rowAnnoDf) == nrow(mat1))
+      if (!is.null(rownames(rowAnnoDf)) && !is.null(rownames(mat1))) {
+        stopifnot(all(rownames(rowAnnoDf) == rownames(mat1)))
       }
-    }
-    tmpList <- list(df = rowAnnoDf, col = colList)
-    tmpList[names(rowAnnoPara)] <- rowAnnoPara
-    row_anno <- do.call(ComplexHeatmap::rowAnnotation, tmpList)
 
-    argList$left_annotation <- row_anno
-  }
+      colList <- list()
+      for (i in colnames(rowAnnoDf)) {
+        if (is.factor(rowAnnoDf[, i]))
+          rowAnnoDf[, i] <- as.character(rowAnnoDf[, i])
 
-
-  # column annotation -----
-  if (!is.null(colmAnnoDf)) {
-    #columns must be at the same order as the columns of mat1
-    stopifnot(nrow(colmAnnoDf) == ncol(mat1))
-    if (!is.null(rownames(colmAnnoDf))) {
-      stopifnot(all(rownames(colmAnnoDf) == colnames(mat1)))
-    }
-
-    colList <- list()
-    for (i in colnames(colmAnnoDf)) {
-      if (is.factor(colmAnnoDf[, i]) || is.logical(colmAnnoDf[, i]))
-        colmAnnoDf[, i] <- as.character(colmAnnoDf[, i])
-
-      if (is.character(colmAnnoDf[, i])) {
-        if (i %in% names(colmAnnoColMap)) {
-          uniCols <- vecSwitch(colmAnnoColMap[[i]])
-        } else{
-          uniVals <- unique(colmAnnoDf[, i])
-          uniVals[is.na(uniVals)] <- 'NA'
-          #uniCols=randomcoloR::distinctColorPalette(length(uniVals),runTsne = T)
-          uniCols <- getDistinctColors(length(uniVals))
-          names(uniCols) <- uniVals
+        if (is.character(rowAnnoDf[, i])) {
+          if (i %in% names(rowAnnoColMap)) {
+            uniCols <- vecSwitch(rowAnnoColMap[[i]])
+          } else{
+            # handled here instead of passing to ComplexHeatmap::Heatmap() to
+            # handle since the colorss it produces are not distinct enough.
+            uniVals <- unique(rowAnnoDf[, i])
+            uniVals[is.na(uniVals)] <- 'NA'
+            #uniCols=randomcoloR::distinctColorPalette(length(uniVals),runTsne = T)
+            uniCols <- getDistinctColors(length(uniVals))
+            names(uniCols) <- uniVals
+          }
+          colList[[i]] <- uniCols
+        } else if (is.numeric(rowAnnoDf[, i]) &&
+                   i %in% names(rowAnnoColMap)) {
+          colList[[i]] <- circlize::colorRamp2(rowAnnoColMap[[i]], names(rowAnnoColMap[[i]]))
         }
-        colList[[i]] <- uniCols
-      } else if (is.numeric(colmAnnoDf[, i]) &&
-                 i %in% names(colmAnnoColMap)) {
-        colList[[i]] <- circlize::colorRamp2(colmAnnoColMap[[i]], names(colmAnnoColMap[[i]]))
       }
+      tmpList <- list(df = rowAnnoDf, col = colList)
+      tmpList[names(rowAnnoPara)] <- rowAnnoPara
+      row_anno <- do.call(ComplexHeatmap::rowAnnotation, tmpList)
+
+      argList$left_annotation <- row_anno
     }
-    tmpList <- list(df = colmAnnoDf, col = colList)
-    tmpList[names(colmAnnoPara)] <- colmAnnoPara
-    colm_anno <- do.call(ComplexHeatmap::columnAnnotation, tmpList)
-
-    argList$top_annotation <- colm_anno
-  }
 
 
-  # combine all args and call Heatmap()----
-  list1 <- c(
-    list(title_position = "topleft",break_dist = legendBreakDist),
-    legendBounds,
-    argList$heatmap_legend_param
-  )
+    # column annotation -----
+    if (!is.null(colmAnnoDf)) {
+      #columns must be at the same order as the columns of mat1
+      stopifnot(nrow(colmAnnoDf) == ncol(mat1))
+      if (!is.null(rownames(colmAnnoDf))) {
+        stopifnot(all(rownames(colmAnnoDf) == colnames(mat1)))
+      }
 
-  if(!is.null(legendHeight)) {
-    list1$legend_height  <- grid::unit(legendHeight, 'cm')
-  }
+      colList <- list()
+      for (i in colnames(colmAnnoDf)) {
+        if (is.factor(colmAnnoDf[, i]) || is.logical(colmAnnoDf[, i]))
+          colmAnnoDf[, i] <- as.character(colmAnnoDf[, i])
 
-  argList$matrix <- mat0
-  dotArgs <- list(...)
-  dotArgs$heatmap_legend_param <- c(dotArgs$heatmap_legend_param, list1)
+        if (is.character(colmAnnoDf[, i])) {
+          if (i %in% names(colmAnnoColMap)) {
+            uniCols <- vecSwitch(colmAnnoColMap[[i]])
+          } else{
+            uniVals <- unique(colmAnnoDf[, i])
+            uniVals[is.na(uniVals)] <- 'NA'
+            #uniCols=randomcoloR::distinctColorPalette(length(uniVals),runTsne = T)
+            uniCols <- getDistinctColors(length(uniVals))
+            names(uniCols) <- uniVals
+          }
+          colList[[i]] <- uniCols
+        } else if (is.numeric(colmAnnoDf[, i]) &&
+                   i %in% names(colmAnnoColMap)) {
+          colList[[i]] <- circlize::colorRamp2(colmAnnoColMap[[i]], names(colmAnnoColMap[[i]]))
+        }
+      }
+      tmpList <- list(df = colmAnnoDf, col = colList)
+      tmpList[names(colmAnnoPara)] <- colmAnnoPara
+      colm_anno <- do.call(ComplexHeatmap::columnAnnotation, tmpList)
 
-  # overwrite any hard-coded parameters with user supplied ones if any
-  argList[names(dotArgs)] <- dotArgs
-  ht1 <- do.call(ComplexHeatmap::Heatmap, argList)
+      argList$top_annotation <- colm_anno
+    }
 
-  if (drawHeatmap) {
-    ComplexHeatmap::draw(ht1,
-                         merge_legend = TRUE,
-                         heatmap_legend_side = legendPos[1])
-  }else(ht1)
+
+    # combine all args and call Heatmap()----
+    list1 <- c(
+      list(title_position = "topleft",break_dist = legendBreakDist),
+      legendBounds,
+      argList$heatmap_legend_param
+    )
+
+    if(!is.null(legendHeight)) {
+      list1$legend_height  <- grid::unit(legendHeight, 'cm')
+    }
+
+    argList$matrix <- mat0
+    dotArgs <- list(...)
+    dotArgs$heatmap_legend_param <- c(dotArgs$heatmap_legend_param, list1)
+
+    # overwrite any hard-coded parameters with user supplied ones if any
+    argList[names(dotArgs)] <- dotArgs
+
+    # clustering and color dendrogram ----
+    if (!is.null(nRowCluster)) {
+      row_dend <- stats::as.dendrogram(stats::hclust(stats::dist(mat1))) # row clustering
+      argList$cluster_rows <- dendextend::color_branches(row_dend, k = nRowCluster)
+    }
+    if (!is.null(nColmCluster)) {
+      colm_dend <- stats::as.dendrogram(stats::hclust(stats::dist(t(mat1)))) # row clustering
+      argList$cluster_columns <- dendextend::color_branches(colm_dend, k = nColmCluster)
+    }
+
+
+    ht1 <- do.call(ComplexHeatmap::Heatmap, argList)
+
+    if (drawHeatmap) {
+      lgd=list()
+      if(addLgd4NA){
+        lgd[[1]]=Legend(labels = 'NA',type = 'grid',legend_gp = gpar(fill = 'grey',col='grey'))
+      }
+      ComplexHeatmap::draw(ht1, heatmap_legend_list =lgd,
+                           merge_legend = TRUE,
+                           heatmap_legend_side = legendPos[1])
+    }else(ht1)
   }
 }

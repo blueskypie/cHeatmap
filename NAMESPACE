@@ -3,5 +3,6 @@
 export(cHeatmap)
 export(getDistinctColors)
 export(getOutliersInd)
+export(hasInfinite)
 export(nRoundDigits)
 export(vecSwitch)

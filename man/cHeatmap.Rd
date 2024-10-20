@@ -6,6 +6,7 @@
 \usage{
 cHeatmap(
   mat1,
+  NA.color = "grey",
   whiteValue = NA,
   colMap = c(green4 = NA, white = whiteValue, red = NA),
   intAsDiscreteCutoff = 6,
@@ -14,8 +15,8 @@ cHeatmap(
   nColmCluster = NULL,
   rowAnnoDf = NULL,
   colmAnnoDf = NULL,
-  rowAnnoPara = list(na_col = "grey"),
-  colmAnnoPara = list(na_col = "grey"),
+  rowAnnoPara = list(na_col = NA.color),
+  colmAnnoPara = list(na_col = NA.color),
   rowAnnoColMap = list(),
   colmAnnoColMap = list(),
   drawHeatmap = T,
@@ -35,6 +36,10 @@ cHeatmap(
 }
 \arguments{
 \item{mat1}{A numeric or character matrix or data frame, required.}
+
+\item{NA.color}{character,'grey'; the color for missing values in \code{mat1},
+\code{rowAnnoDf}, or \code{colmAnnoDf}. If missing values are present, a square
+of \code{NA.color} will be added to the legend.}
 
 \item{whiteValue}{Numeric, \code{NULL}; it is the value of the white or middle color
 in the legend if \code{mat1} is numeric and \code{colMap} consists of three colors.}
@@ -207,6 +212,13 @@ that the color scale of the heatmap is not dominated by those outliers
 \item Discrete color-value mapping for integer matrices containing few unique values
 \item Clustering of the character matrix based on the orders of characters
 \item Interface to plot across rows
+\item Handling of edge cases:
+}
+\itemize{
+\item Inf and -Inf values in input matrix cause errors in \code{stats::dist()} for
+clustering, they are reset as NA.
+\item If missing values are present in the input matrix or row and column
+annotations, a legend for missing value is added.
 }
 }
 \examples{

@@ -1,3 +1,32 @@
+#' determine if a vector, matrix, or data.frame contains NA, NaN, Inf, -Inf
+#'
+#' @param x a vector, matrix, or data.frame
+#'
+#' @return a logical value
+#' @export
+#'
+#' @examples
+#' k=c(1:3,Inf)
+#' hasInfinite(k)
+#' k=factor(k)
+#' !is.finite(k)
+#' hasInfinite(k)
+hasInfinite=function(x){
+  hasInfiniteInVector=\(y) any(as.character(y) %in% as.character(c(NA,NaN, Inf, -Inf)))
+
+  if(is.null(x)){ F
+  }else if(is.data.frame(x)){
+    k=sapply(x, hasInfiniteInVector)
+    any(k)
+  }else if(is.vector(x) || is.matrix(x) || is.factor(x)){
+    hasInfiniteInVector(x)
+  }else {
+    stop('the input to hasInfinite() is not data.frame or vector!')
+  }
+}
+
+
+
 #' Get distinct colors
 #'
 #' @param n The number of distinct colors
