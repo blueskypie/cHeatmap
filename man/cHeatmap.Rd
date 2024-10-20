@@ -80,7 +80,7 @@ To also split, i.e. columns, set \code{column_split = nColmCluster}.}
 or column. The rows of the \code{rowAnnoDf}/\code{colmAnnoDf} should be of the same
 length and order of the row/column of \code{mat1}.}
 
-\item{rowAnnoPara, colmAnnoPara}{list, \code{list(na_col = "grey")}; passed to
+\item{rowAnnoPara, colmAnnoPara}{list, \code{list(na_col = NA.color)}; passed to
 \code{\link[ComplexHeatmap:rowAnnotation]{ComplexHeatmap::rowAnnotation()}} or \code{\link[ComplexHeatmap:columnAnnotation]{ComplexHeatmap::columnAnnotation()}}}
 
 \item{rowAnnoColMap, colmAnnoColMap}{list, \code{list()}; the color mappings for row and column
@@ -179,14 +179,13 @@ the legend and can be the following values:
 \item \code{NULL}; the numeric distance among breaks
 \item \code{1}; equal distance among breaks
 \item a numeric vector to represent the relative length of each section between
-two breaks; its length should be \code{length(colMap) - 1};
-for example, \code{c(1, 1, 0.5, 3)} for
-\code{colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)}
+two breaks; its length should be \code{length(legendTicks) - 1};
 }}
 
 \item{legendHeight}{numeric, NULL; height of the vertical legend in cm.}
 
-\item{legendTicks}{numeric, NULL; the legend tick; default is the \code{unname(colMap)}}
+\item{legendTicks}{numeric, NULL; the legend tick; default is the \code{unname(colMap)}
+but can be any numeric vector whose range is within \code{unname(colMap)}.}
 
 \item{legendTickLabels}{character, NULL; the label of legend tick; should be the
 same length as the \code{legendTicks}; use '' to skip a tick.}

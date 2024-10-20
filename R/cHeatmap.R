@@ -53,7 +53,7 @@
 #' @param rowAnnoDf,colmAnnoDf matrix or data frame, `NULL`; annotation for row
 #'        or column. The rows of the `rowAnnoDf`/`colmAnnoDf` should be of the same
 #'        length and order of the row/column of `mat1`.
-#' @param rowAnnoPara,colmAnnoPara list, `list(na_col = "grey")`; passed to
+#' @param rowAnnoPara,colmAnnoPara list, `list(na_col = NA.color)`; passed to
 #'        [ComplexHeatmap::rowAnnotation()] or [ComplexHeatmap::columnAnnotation()]
 #' @param rowAnnoColMap,colmAnnoColMap list, `list()`; the color mappings for row and column
 #'        annotations are handled automatically. Use this parameter to manually
@@ -135,11 +135,10 @@
 #'    * `NULL`; the numeric distance among breaks
 #'    * `1`; equal distance among breaks
 #'    * a numeric vector to represent the relative length of each section between
-#'       two breaks; its length should be `length(colMap) - 1`;
-#'       for example, `c(1, 1, 0.5, 3)` for
-#'    `colMap = c("green4" = -1, "white" = 0, "red" = 1, "yellow" = 3, "blue" = 18)`
+#'       two breaks; its length should be `length(legendTicks) - 1`;
 #' @param legendHeight numeric, NULL; height of the vertical legend in cm.
 #' @param legendTicks numeric, NULL; the legend tick; default is the `unname(colMap)`
+#'    but can be any numeric vector whose range is within `unname(colMap)`.
 #' @param legendTickLabels character, NULL; the label of legend tick; should be the
 #'   same length as the `legendTicks`; use '' to skip a tick.
 
@@ -519,7 +518,7 @@ cHeatmap <- function(mat1,
     if (drawHeatmap) {
       lgd=list()
       if(addLgd4NA){
-        lgd[[1]]=ComplexHeatmap::Legend(labels = 'NA',type = 'grid',legend_gp = grid::gpar(fill = 'grey',col='grey'))
+        lgd[[1]]=Legend(labels = 'NA',type = 'grid',legend_gp = gpar(fill = 'grey',col='grey'))
       }
       ComplexHeatmap::draw(ht1, heatmap_legend_list =lgd,
                            merge_legend = TRUE,
