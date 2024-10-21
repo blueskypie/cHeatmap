@@ -1,53 +1,4 @@
----
-title: "convenience Heatmap"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{cHeatmap-intro}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-## Introduction
-
-cHeatmap is a wrapper of the excellent [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html) function with additional functions and more friendly interface for some common tasks in my work, thus called the **c**onvenience **Heatmap**. I highly recommend reading the [ComplexHeatmap book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html) for more advanced use.
-
-Here are the features:
-
-1.  Automatic or manual setting of the values of outliers in the input matrix so that the color scale of the heatmap is not dominated by those outliers
-
-2.  The option to set the color-value mappings in the heatmap legend
-
-3.  Automatic coloring of the dendrogram
-
-4.  Easy highlight or display of the values of certain cells
-
-5.  Discrete color-value mapping for integer matrices containing few unique values
-
-6.  Clustering of the character matrix based on the orders of characters
-
-7.  Interface to plot across rows
-
-8.  Handling of edge cases:
-
-    -   Inf and -Inf values in input matrix cause errors in `stats::dist()` for clustering, they are reset as NA.
-
-    -   If missing values are present in the input matrix or row and column annotations, a legend for missing value is added.
-
-## Examples
-
-### Reset the value of outliers
-
-Outliers in a numeric matrix dominate the color scale and make the differences among many cells barely visible, such as `nMat1` below.
-
-```{r setup, include = FALSE, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  tidy = TRUE
-)
-```
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 library(cHeatmap)
 
 set.seed(100)
@@ -62,70 +13,48 @@ cHeatmap(mat1,
   cellFun = function(x) { x }, # display all the values
   column_split = c(rep("nMat1", 5), rep("uMat1", 2)) # mark the two matrices
 )
-```
 
-Set `resetOutliers = T` to detect outliers in `mat1` and reset their values, so that the difference in the values of `nMat1` can be easily visualized. See [Reference Manual](https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html) for details. Note that the upper label of the legend changes to `>6.6`.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = T,
   cluster_rows = F, cluster_columns = F,
   whiteValue = 0 # set the white values in the legend to 0
 )
-```
 
-Instead of auto-detecting the outliers, use the `colMap` to set the range. Values outside of the range are outliers. The default of `colMap` is `c("green4"=NA, "white"=whiteValue, "red"=NA)`.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
   cluster_rows = F, cluster_columns = F,
   colMap = c(-1, 0, 3)
 )
-```
 
-Only set the upper bound, auto-detect the lower bound.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = T,
   cluster_rows = F, cluster_columns = F,
   colMap = c(NA, 0, 3)
 )
-```
 
-### Manually set the color-value mapping
-
-Set colors and also the value for the middle color.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
   cluster_rows = F, cluster_columns = F,
   colMap = c("blue" = NA, "green" = 5, "red" = NA)
 )
-```
 
-Set the upper and lower bounds.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
   cluster_rows = F, cluster_columns = F,
   colMap = c("green" = -1, "green4" = 18)
 )
-```
 
-Set multiple color-value mappings to visualize both global and local differences, for example, if the matrix contains two distant clusters - `nMat1` and `uMat1`.
-
-Also note that `Inf` is reset to `NA` to avoid error in clustering and a legend for missing values is added automatically.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 # create an Inf value
 mat2=mat1
 mat2[2,2]=Inf
@@ -138,15 +67,8 @@ cHeatmap(mat2,
   column_split = c(rep("nMat1", 5), rep("uMat1", 2))
 )
 rm(mat2)
-```
 
-Adjust the legend to
-
--   lengthen the portion for cluster 1
--   shorten the portion between 1 and 3 if majority of cluster 2 are in (3, 18)
--   increase the height of the whole legend to 4cm
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
@@ -156,11 +78,8 @@ cHeatmap(mat1,
   legendBreakDist = c(1, 1, 0.5, 3),
   legendHeight = 4
 )
-```
 
-Set distinct color to different numerical ranges
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 lt=c(-1,0,1,3,6,9,12,15,18)
 cHeatmap(mat1,
          name = "value",
@@ -175,13 +94,8 @@ cHeatmap(mat1,
          legendHeight = 4,
          column_split = c(rep("nMat1", 5), rep("uMat1", 2))
 )
-```
 
-### Display cell values using `cellFun`
-
-Show only values in (0.5, 1).
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
@@ -189,11 +103,8 @@ cHeatmap(mat1,
   colMap = c(-1, 0, 3),
   cellFun = function(x) { if (x > 0.5 && x < 1) x }
 )
-```
 
-Display only the outliers, e.g. those outside of the range of `colMap`.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
@@ -201,38 +112,26 @@ cHeatmap(mat1,
   colMap = c(-1, 0, 3),
   cellFun = "o" # 'o' is hard-coded to represent outliers
 )
-```
 
-Mark outliers as `*`; note by default `resetOutliers = TRUE` for numeric matrices.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1, cellFun = c("o", "*"))
-```
 
-Color outliers by black edge.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1, 
   cellFun = c(
     "o", list("rect", col = "black", lwd = 2)
   )
 )
-```
 
-Display `H` if cell values \> 2 and `L` if \< 0.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   cellFun = function(x) {
     if (x > 2) {      "H"
     } else if (x < 0) "L"
   }
 )
-```
 
-Add black edge if cell values \> 2 and display `L` if \< 0.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   cellFun = function(x) {
     if (x > 2) {
@@ -240,36 +139,23 @@ cHeatmap(mat1,
     } else if (x < 0) "L"
   }
 )
-```
 
-### Color dendrograms and split the clusters
-
-`nRowCluster` and `nColmCluster` specify the number of colors in the corresponding dendrograms.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mat1,
   name = "value",
   resetOutliers = F,
   nRowCluster = 2, nColmCluster = 3,
   row_split = 2, column_split = 3
 )
-```
 
-### Integer matrices
-
-If the number of unique values is greater than `intAsDiscreteCutoff` whose default value is 6 in `cHeatmap` parameter settings, the color mapping is continuous; otherwise, the mapping is discrete.
-
-```{r, fig.keep = c(1,3), fig.asp = 5/7 }
+## ----fig.keep = c(1,3), fig.asp = 5/7-----------------------------------------
 mati <- matrix(sample(1:100, 42, TRUE), nrow = 6)
 cHeatmap(mati, name = "value")
 
 mati <- matrix(sample(1:5, 42, TRUE), nrow = 6)
 cHeatmap(mati, name = "value")
-```
 
-Set colors manually and show numbers 1, 3, and 5.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(mati,
   name = "value",
   colMap = c("red" = 1, "pink" = 2, "yellow" = 3, "green" = 4, "green4" = 5),
@@ -277,18 +163,12 @@ cHeatmap(mati,
     if (x %in% c(1, 3, 5)) x
   }
 )
-```
 
-### Character matrices
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 matc <- matrix(sample(letters[1:6], 42, TRUE), nrow = 6)
 cHeatmap(matc, name = "value")
-```
 
-Cluster the matrix by converting characters to their alphabetic orders, i.e. `a .. f` to `1 .. 6`, and manually set the color-value mappings.
-
-```{r, fig.keep = 'last', fig.asp = 5/7 }
+## ----fig.keep = 'last', fig.asp = 5/7-----------------------------------------
 cHeatmap(matc,
   name = "value",
   nColmCluster = 3, nRowCluster = 2,
@@ -297,11 +177,8 @@ cHeatmap(matc,
     "green" = "d", "green2" = "e", "green4" = "f"
   )
 )
-```
 
-### Row and column annotation
-
-```{r, fig.keep = 'last',fig.height=7,fig.width=10.5}
+## ----fig.keep = 'last',fig.height=7,fig.width=10.5----------------------------
 # create the matrix ----
 mat1 <- matrix(sample(1:100, 42, TRUE), nrow = 6)
 rownames(mat1) <- paste("row", 1:6)
@@ -323,11 +200,8 @@ stopifnot(all(colnames(mat1) %in% rownames(colDf)) && ncol(mat1) == nrow(colDf))
 colDf <- colDf[colnames(mat1), ]
 
 cHeatmap(mat1, name = "value", rowAnnoDf = rowDf, colmAnnoDf = colDf)
-```
 
-Set some annotation colors manually.
-
-```{r, fig.keep = 'last', fig.height=7,fig.width=10.5 }
+## ----fig.keep = 'last', fig.height=7,fig.width=10.5---------------------------
 cHeatmap(mat1,
   name = "value",
   rowAnnoDf = rowDf, colmAnnoDf = colDf,
@@ -337,26 +211,16 @@ cHeatmap(mat1,
     order = c("blue" = 1, "blue4" = 7)
   )
 )
-```
 
-### Concatenate two heatmaps
-
-Set `drawHeatmap = F` to concatenate multiple heatmaps.
-
-```{r, fig.keep = 'last', fig.height=7,fig.width=10.5}
+## ----fig.keep = 'last', fig.height=7,fig.width=10.5---------------------------
 nMat1 <- matrix(rnorm(30), nrow = 6)
 uMat1 <- matrix(runif(12, -5, 20), nrow = 6)
 
 hm1 <- cHeatmap(nMat1, drawHeatmap = F, name = "nMat1")
 hm2 <- cHeatmap(uMat1, drawHeatmap = F, name = "uMat1")
 hm1 + hm2
-```
 
-### Plot inside each row using `rowDraw`
-
-Here `painScore` of `patient 2` is plotted across visits. Its values are transformed to the range of (0,1), representing relative values across visits.
-
-```{r, fig.keep = 'last', fig.height=7,fig.width=9.3,dpi=100 }
+## ----fig.keep = 'last', fig.height=7,fig.width=9.3,dpi=100--------------------
 mat1 <- matrix(c(nMat1, uMat1), nrow = 6)
 rownames(mat1) <- paste("pt", 1:6)
 colnames(mat1) <- paste("visit", 1:7)
@@ -371,11 +235,8 @@ cHeatmap(mat1,
     2 # plot at the 2nd row of mat1
   )
 )
-```
 
-Plot both lines and points in multiple rows.
-
-```{r, fig.keep = 'last', fig.height=7,fig.width=9.3,dpi=100}
+## ----fig.keep = 'last', fig.height=7,fig.width=9.3,dpi=100--------------------
 # longitudinal scores of four patients
 painScore <- matrix(rnorm(28), nrow = 4)
 cHeatmap(mat1,
@@ -389,4 +250,4 @@ cHeatmap(mat1,
     c(2, 3, 4, 5) # row indices of the four patients in mat1
   )
 )
-```
+

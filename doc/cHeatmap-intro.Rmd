@@ -3,17 +3,28 @@ title: "convenience Heatmap"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{cHeatmap-intro}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Introduction
 
-cHeatmap is a wrapper of the excellent [`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html) function with additional functions and more friendly interface for some common tasks in my work, thus called the **c**onvenience **Heatmap**. I highly recommend reading the [ComplexHeatmap book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html) for more advanced use.
+cHeatmap is a wrapper of the excellent
+[`ComplexHeatmap::Heatmap()`](https://jokergoo.github.io/ComplexHeatmap/reference/Heatmap.html)
+function with additional functions and more friendly interface for some
+common tasks in my work, thus called the **c**onvenience **Heatmap**. I
+highly recommend reading the [ComplexHeatmap
+book](https://jokergoo.github.io/ComplexHeatmap-reference/book/index.html)
+for more advanced use.
 
 Here are the features:
 
-1.  Automatic or manual setting of the values of outliers in the input matrix so that the color scale of the heatmap is not dominated by those outliers
+1.  Automatic or manual setting of the values of outliers in the input
+    matrix so that the color scale of the heatmap is not dominated by
+    those outliers
 
 2.  The option to set the color-value mappings in the heatmap legend
 
@@ -21,7 +32,8 @@ Here are the features:
 
 4.  Easy highlight or display of the values of certain cells
 
-5.  Discrete color-value mapping for integer matrices containing few unique values
+5.  Discrete color-value mapping for integer matrices containing few
+    unique values
 
 6.  Clustering of the character matrix based on the orders of characters
 
@@ -29,15 +41,18 @@ Here are the features:
 
 8.  Handling of edge cases:
 
-    -   Inf and -Inf values in input matrix cause errors in `stats::dist()` for clustering, they are reset as NA.
+    -   Inf and -Inf values in input matrix cause errors in
+        `stats::dist()` for clustering, they are reset as NA.
 
-    -   If missing values are present in the input matrix or row and column annotations, a legend for missing value is added.
+    -   If missing values are present in the input matrix or row and
+        column annotations, a legend for missing value is added.
 
 ## Examples
 
 ### Reset the value of outliers
 
-Outliers in a numeric matrix dominate the color scale and make the differences among many cells barely visible, such as `nMat1` below.
+Outliers in a numeric matrix dominate the color scale and make the
+differences among many cells barely visible, such as `nMat1` below.
 
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(
@@ -64,7 +79,11 @@ cHeatmap(mat1,
 )
 ```
 
-Set `resetOutliers = T` to detect outliers in `mat1` and reset their values, so that the difference in the values of `nMat1` can be easily visualized. See [Reference Manual](https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html) for details. Note that the upper label of the legend changes to `>6.6`.
+Set `resetOutliers = T` to detect outliers in `mat1` and reset their
+values, so that the difference in the values of `nMat1` can be easily
+visualized. See [Reference
+Manual](https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html)
+for details. Note that the upper label of the legend changes to `>6.6`.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(mat1,
@@ -75,7 +94,9 @@ cHeatmap(mat1,
 )
 ```
 
-Instead of auto-detecting the outliers, use the `colMap` to set the range. Values outside of the range are outliers. The default of `colMap` is `c("green4"=NA, "white"=whiteValue, "red"=NA)`.
+Instead of auto-detecting the outliers, use the `colMap` to set the
+range. Values outside of the range are outliers. The default of `colMap`
+is `c("green4"=NA, "white"=whiteValue, "red"=NA)`.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(mat1,
@@ -121,9 +142,12 @@ cHeatmap(mat1,
 )
 ```
 
-Set multiple color-value mappings to visualize both global and local differences, for example, if the matrix contains two distant clusters - `nMat1` and `uMat1`.
+Set multiple color-value mappings to visualize both global and local
+differences, for example, if the matrix contains two distant clusters -
+`nMat1` and `uMat1`.
 
-Also note that `Inf` is reset to `NA` to avoid error in clustering and a legend for missing values is added automatically.
+Also note that `Inf` is reset to `NA` to avoid error in clustering and a
+legend for missing values is added automatically.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 # create an Inf value
@@ -143,7 +167,8 @@ rm(mat2)
 Adjust the legend to
 
 -   lengthen the portion for cluster 1
--   shorten the portion between 1 and 3 if majority of cluster 2 are in (3, 18)
+-   shorten the portion between 1 and 3 if majority of cluster 2 are in
+    (3, 18)
 -   increase the height of the whole legend to 4cm
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
@@ -203,7 +228,8 @@ cHeatmap(mat1,
 )
 ```
 
-Mark outliers as `*`; note by default `resetOutliers = TRUE` for numeric matrices.
+Mark outliers as `*`; note by default `resetOutliers = TRUE` for numeric
+matrices.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(mat1, cellFun = c("o", "*"))
@@ -244,7 +270,8 @@ cHeatmap(mat1,
 
 ### Color dendrograms and split the clusters
 
-`nRowCluster` and `nColmCluster` specify the number of colors in the corresponding dendrograms.
+`nRowCluster` and `nColmCluster` specify the number of colors in the
+corresponding dendrograms.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(mat1,
@@ -257,7 +284,9 @@ cHeatmap(mat1,
 
 ### Integer matrices
 
-If the number of unique values is greater than `intAsDiscreteCutoff` whose default value is 6 in `cHeatmap` parameter settings, the color mapping is continuous; otherwise, the mapping is discrete.
+If the number of unique values is greater than `intAsDiscreteCutoff`
+whose default value is 6 in `cHeatmap` parameter settings, the color
+mapping is continuous; otherwise, the mapping is discrete.
 
 ```{r, fig.keep = c(1,3), fig.asp = 5/7 }
 mati <- matrix(sample(1:100, 42, TRUE), nrow = 6)
@@ -286,7 +315,8 @@ matc <- matrix(sample(letters[1:6], 42, TRUE), nrow = 6)
 cHeatmap(matc, name = "value")
 ```
 
-Cluster the matrix by converting characters to their alphabetic orders, i.e. `a .. f` to `1 .. 6`, and manually set the color-value mappings.
+Cluster the matrix by converting characters to their alphabetic orders,
+i.e. `a .. f` to `1 .. 6`, and manually set the color-value mappings.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(matc,
@@ -354,7 +384,9 @@ hm1 + hm2
 
 ### Plot inside each row using `rowDraw`
 
-Here `painScore` of `patient 2` is plotted across visits. Its values are transformed to the range of (0,1), representing relative values across visits.
+Here `painScore` of `patient 2` is plotted across visits. Its values are
+transformed to the range of (0,1), representing relative values across
+visits.
 
 ```{r, fig.keep = 'last', fig.height=7,fig.width=9.3,dpi=100 }
 mat1 <- matrix(c(nMat1, uMat1), nrow = 6)
