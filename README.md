@@ -3,7 +3,7 @@
 
 # cHeatmap
 
-[![](https://img.shields.io/badge/devel%20version-0.2.1-blue.svg)](https://github.com/blueskypie/cHeatmap)
+[![](https://img.shields.io/badge/devel%20version-0.2.2-blue.svg)](https://github.com/blueskypie/cHeatmap)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)

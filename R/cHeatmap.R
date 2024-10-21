@@ -302,10 +302,10 @@ cHeatmap <- function(mat1,
 
     if(is.null(legendTickLabels)) {
       legendTickLabels <- as.character(legendTicks)
-      if (colMap[1] > min1)
+      if (legendTicks[1] > min1)
         legendTickLabels[1] <- paste0('<', legendTickLabels[1])
-      if (colMap[cmLen] < max1)
-        legendTickLabels[cmLen] <- paste0('>', legendTickLabels[cmLen])
+      if (legendTicks[length(legendTicks)] < max1)
+        legendTickLabels[length(legendTickLabels)] <- paste0('>', legendTickLabels[length(legendTickLabels)])
     }
 
     legendBounds <- list(at = legendTicks,labels = legendTickLabels)
