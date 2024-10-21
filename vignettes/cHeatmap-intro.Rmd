@@ -29,7 +29,7 @@ Here are the features:
 
 8.  Handling of edge cases:
 
-    -   Inf and -Inf values in input matrix cause errors in `stats::dist()` for clustering, they are reset as NA.
+    -   `Inf` and `-Inf` values in input matrix cause errors in `stats::dist()` for clustering, they are reset as NA.
 
     -   If missing values are present in the input matrix or row and column annotations, a legend for missing value is added.
 
