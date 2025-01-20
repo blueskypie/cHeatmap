@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   cHeatmap-intro: cHeatmap-intro.html
-last_built: 2025-01-20T17:24Z
+last_built: 2025-01-20T17:29Z
 urls:
   reference: https://blueskypie.github.io/cHeatmap/reference
   article: https://blueskypie.github.io/cHeatmap/articles
