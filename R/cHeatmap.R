@@ -640,7 +640,5 @@ cHeatmap0 <- function(mat1,
         }
       }
     }
-  }
-  
-  ht1
+  }else{  ht1 }
 }

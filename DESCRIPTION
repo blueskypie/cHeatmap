@@ -1,6 +1,6 @@
 Package: cHeatmap
 Title: Plot Heatmaps
-Version: 0.4.1
+Version: 0.4.2
 Authors@R: 
     person("Jike", "Cui", , "16052330+blueskypie@users.noreply.github.com", 
     role = c("aut", "cre"))

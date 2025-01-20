@@ -39,7 +39,7 @@ Here are the features:
 
 ### Exclusion of outliers in the color mapping
 
-Outliers in a numeric matrix dominate the color scale and make the differences among many cells barely visible, such as body and `ra1` annotation below.
+Outliers in a numeric matrix dominate the color scale and make the differences among many cells barely visible, such as the heatmap body and `ra1` annotation below.
 
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(
