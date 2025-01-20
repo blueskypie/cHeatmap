@@ -15,12 +15,12 @@
 #' 6. Clustering of the character matrix based on the orders of characters.
 #' 7. Interface to plot across rows.
 #' 8. Handling of edge cases:
-#'   * Inf and -Inf values in input matrix cause errors in `stats::dist()` for
-#'     clustering, they are reset as NA.
-#'   * If missing values are present in the input matrix or row and column
-#'     annotations, a legend for missing value is added.
-#'   * Plot a heatmap of a data.frame with columns of different data types 
-#'     clustered by one of the columns.
+#'    * `Inf` and `-Inf` values in input matrix cause errors in `stats::dist()` for
+#'      clustering, they are reset as NA.
+#'    * If missing values are present in the input matrix or row and column
+#'      annotations, a legend for missing value is added.
+#'    * Plot a heatmap of a data.frame with columns of different data types 
+#'      clustered by one of the columns.
 #'     
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
@@ -103,7 +103,8 @@
 #'       [ComplexHeatmap::Heatmap()] directly.
 #'       
 #' @param annoCellFunList list of functions to define the indices and content to display values 
-#'   of annotation, `NULL`; the returned value of each function can be the followings:
+#'   of annotation, `NULL`; to use this, `drawHeatmap` must be `TRUE`;  
+#'     the returned value of each function can be the followings:
 #'    * A vector, the actual values of the annotation are displayed
 #'      + if the vector is 'o', the cells to display are the outliers
 #'      + otherwise, the vector should be indices in the original `rowAnnoDf` or
@@ -156,7 +157,7 @@
 #'    but can be any numeric vector whose range is within `unname(colMap)`.
 #' @param legendTickLabels character, NULL; the label of legend tick; should be the
 #'   same length as the `legendTicks`; use '' to skip a tick.
-#' @param asGGplot logical, FALSE; output as ggplot object
+#' @param asGGplot logical, FALSE; to output as ggplot object, `drawHeatmap` must be `TRUE`
 
 #' @param ... passed to [ComplexHeatmap::Heatmap()]
 #'
@@ -166,35 +167,35 @@
 #' @export
 #' @examples # examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
 cHeatmap <- function(mat1,
-                      NA.color='grey',
-                      whiteValue = NA,
-                      colMap = c("green4" = NA,
-                                 "white" = whiteValue,
-                                 "red" = NA),
-                      intAsDiscreteCutoff = 6,
-                      legendPos = c("right", "left", "bottom", "top"),
-                      nRowCluster = NULL,
-                      nColmCluster = NULL,
-                      rowAnnoDf = NULL,
-                      colmAnnoDf = NULL,
-                      rowAnnoPara = list(na_col = NA.color),
-                      colmAnnoPara = list(na_col = NA.color),
-                      rowAnnoColMap = NULL,
-                      colmAnnoColMap = NULL,
-                      drawHeatmap = T,
-                      rmLegendOutliers = is.numeric(mat1),
-                      cellFun = NULL,
-                      annoCellFunList=NULL,
-                      cfMat = mat1,
-                      cellFontSize = 9,
-                      cellFontColor = 'black',
-                      rowDraw = NULL,
-                      legendBreakDist = NULL,
-                      legendHeight = NULL,
-                      legendTicks = NULL,
-                      legendTickLabels = NULL,
-                      asGGplot = FALSE,
-                      ...) {
+                     NA.color='grey',
+                     whiteValue = NA,
+                     colMap = c("green4" = NA,
+                                "white" = whiteValue,
+                                "red" = NA),
+                     intAsDiscreteCutoff = 6,
+                     legendPos = c("right", "left", "bottom", "top"),
+                     nRowCluster = NULL,
+                     nColmCluster = NULL,
+                     rowAnnoDf = NULL,
+                     colmAnnoDf = NULL,
+                     rowAnnoPara = list(na_col = NA.color),
+                     colmAnnoPara = list(na_col = NA.color),
+                     rowAnnoColMap = NULL,
+                     colmAnnoColMap = NULL,
+                     drawHeatmap = T,
+                     rmLegendOutliers = is.numeric(mat1),
+                     cellFun = NULL,
+                     annoCellFunList=NULL,
+                     cfMat = mat1,
+                     cellFontSize = 9,
+                     cellFontColor = 'black',
+                     rowDraw = NULL,
+                     legendBreakDist = NULL,
+                     legendHeight = NULL,
+                     legendTicks = NULL,
+                     legendTickLabels = NULL,
+                     asGGplot = FALSE,
+                     ...) {
   
   asgg=asGGplot
   thiscall <- match.call(expand.dots = TRUE)
@@ -227,12 +228,12 @@ cHeatmap <- function(mat1,
 #' 6. Clustering of the character matrix based on the orders of characters.
 #' 7. Interface to plot across rows.
 #' 8. Handling of edge cases:
-#'   * Inf and -Inf values in input matrix cause errors in `stats::dist()` for
-#'     clustering, they are reset as NA.
-#'   * If missing values are present in the input matrix or row and column
-#'     annotations, a legend for missing value is added.
-#'   * Plot a heatmap of a data.frame with columns of different data types 
-#'     clustered by one of the columns.
+#'    * `Inf` and `-Inf` values in input matrix cause errors in `stats::dist()` for
+#'      clustering, they are reset as NA.
+#'    * If missing values are present in the input matrix or row and column
+#'      annotations, a legend for missing value is added.
+#'    * Plot a heatmap of a data.frame with columns of different data types 
+#'      clustered by one of the columns.
 #'     
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
@@ -315,7 +316,8 @@ cHeatmap <- function(mat1,
 #'       [ComplexHeatmap::Heatmap()] directly.
 #'       
 #' @param annoCellFunList list of functions to define the indices and content to display values 
-#'   of annotation, `NULL`; the returned value of each function can be the followings:
+#'   of annotation, `NULL`; to use this, `drawHeatmap` must be `TRUE`;  
+#'     the returned value of each function can be the followings:
 #'    * A vector, the actual values of the annotation are displayed
 #'      + if the vector is 'o', the cells to display are the outliers
 #'      + otherwise, the vector should be indices in the original `rowAnnoDf` or
@@ -375,34 +377,34 @@ cHeatmap <- function(mat1,
 #'         a [ComplexHeatmap::Heatmap-class] object otherwise.
 #' @examples # examples at https://blueskypie.github.io/cHeatmap/articles/cHeatmap-intro.html
 cHeatmap0 <- function(mat1,
-                     NA.color='grey',
-                     whiteValue = NA,
-                     colMap = c("green4" = NA,
-                                "white" = whiteValue,
-                                "red" = NA),
-                     intAsDiscreteCutoff = 6,
-                     legendPos = c("right", "left", "bottom", "top"),
-                     nRowCluster = NULL,
-                     nColmCluster = NULL,
-                     rowAnnoDf = NULL,
-                     colmAnnoDf = NULL,
-                     rowAnnoPara = list(na_col = NA.color),
-                     colmAnnoPara = list(na_col = NA.color),
-                     rowAnnoColMap = NULL,
-                     colmAnnoColMap = NULL,
-                     drawHeatmap = T,
-                     rmLegendOutliers = is.numeric(mat1),
-                     cellFun = NULL,
-                     annoCellFunList=NULL,
-                     cfMat = mat1,
-                     cellFontSize = 9,
-                     cellFontColor = 'black',
-                     rowDraw = NULL,
-                     legendBreakDist = NULL,
-                     legendHeight = NULL,
-                     legendTicks = NULL,
-                     legendTickLabels = NULL,
-                     ...) {
+                      NA.color='grey',
+                      whiteValue = NA,
+                      colMap = c("green4" = NA,
+                                 "white" = whiteValue,
+                                 "red" = NA),
+                      intAsDiscreteCutoff = 6,
+                      legendPos = c("right", "left", "bottom", "top"),
+                      nRowCluster = NULL,
+                      nColmCluster = NULL,
+                      rowAnnoDf = NULL,
+                      colmAnnoDf = NULL,
+                      rowAnnoPara = list(na_col = NA.color),
+                      colmAnnoPara = list(na_col = NA.color),
+                      rowAnnoColMap = NULL,
+                      colmAnnoColMap = NULL,
+                      drawHeatmap = T,
+                      rmLegendOutliers = is.numeric(mat1),
+                      cellFun = NULL,
+                      annoCellFunList=NULL,
+                      cfMat = mat1,
+                      cellFontSize = 9,
+                      cellFontColor = 'black',
+                      rowDraw = NULL,
+                      legendBreakDist = NULL,
+                      legendHeight = NULL,
+                      legendTicks = NULL,
+                      legendTickLabels = NULL,
+                      ...) {
   
   argList <- list( #arguments for ComplexHeatmap::Heatmap()
     na_col=NA.color,
@@ -588,57 +590,57 @@ cHeatmap0 <- function(mat1,
     ht1=ComplexHeatmap::draw(ht1, heatmap_legend_list =lgd,
                              merge_legend = TRUE,
                              heatmap_legend_side = legendPos[1])
+    
+    # display certain values in the annotation -------
+    if(!is.null(annoCellFunList)){ 
+      f1=\(x,df){
+        inds=NULL
+        dStr=NULL
+        re=annoCellFunList[[x]](df[[x]])
+        if(re[1]=='o'){ # || re[[1]][1]=='o'
+          inds=unlist(getOutliersInd(df[[x]]))
+        }else if(all(re%%1==0)){ #check is all are integers
+          inds=re
+        }
+        
+        if(is.list(re)){
+          if(is.null(inds)) inds=re[[1]]
+          dStr=re[[2]]
+        }
+        
+        if(is.null(dStr)) dStr=df[inds,x]
+        
+        if(is.numeric(dStr)) dStr=formatNum(dStr,less1=T)
+        list(inds=inds,dStr=dStr)
+      }
+      
+      
+      for(aName in names(annoCellFunList)){
+        if(aName %in% colnames(rowAnnoDf)){
+          newOrders=ComplexHeatmap::row_order(ht1)
+          mapInd=nrow(mat1)+1-order(newOrders)
+          re=f1(aName,rowAnnoDf)
+          if(length(re$inds)>0){
+            hl=0.5/nrow(rowAnnoDf)
+            ComplexHeatmap::decorate_annotation(aName, {
+              grid::grid.text(re$dStr,y= hl*(2*mapInd[re$inds]-1),rot=90)
+            })
+          }
+        }else{
+          newOrders=ComplexHeatmap::column_order(ht1)
+          mapInd=order(newOrders) #ncol(mat1)+1-order(newOrders) 
+          re=f1(aName,colmAnnoDf)
+          if(length(re$inds)>0){
+            # i is the half width of a cell
+            hl=0.5/nrow(colmAnnoDf)
+            ComplexHeatmap::decorate_annotation(aName, {
+              grid::grid.text(re$dStr,x=hl*(2*mapInd[re$inds]-1))
+            })
+          }
+        }
+      }
+    }
   }
   
-  
-  # display certain values in the annotation -------
-  if(!is.null(annoCellFunList)){ 
-    f1=\(x,df){
-      inds=NULL
-      dStr=NULL
-      re=annoCellFunList[[x]](df[[x]])
-      if(re[1]=='o'){ # || re[[1]][1]=='o'
-        inds=unlist(getOutliersInd(df[[x]]))
-      }else if(all(re%%1==0)){ #check is all are integers
-        inds=re
-      }
-      
-      if(is.list(re)){
-        if(is.null(inds)) inds=re[[1]]
-        dStr=re[[2]]
-      }
-      
-      if(is.null(dStr)) dStr=df[inds,x]
-      
-      if(is.numeric(dStr)) dStr=formatNum(dStr,less1=T)
-      list(inds=inds,dStr=dStr)
-    }
-    
-    
-    for(aName in names(annoCellFunList)){
-      if(aName %in% colnames(rowAnnoDf)){
-        newOrders=ComplexHeatmap::row_order(ht1)
-        mapInd=nrow(mat1)+1-order(newOrders)
-        re=f1(aName,rowAnnoDf)
-        if(length(re$inds)>0){
-          hl=0.5/nrow(rowAnnoDf)
-          ComplexHeatmap::decorate_annotation(aName, {
-            grid::grid.text(re$dStr,y= hl*(2*mapInd[re$inds]-1),rot=90)
-          })
-        }
-      }else{
-        newOrders=ComplexHeatmap::column_order(ht1)
-        mapInd=order(newOrders) #ncol(mat1)+1-order(newOrders) 
-        re=f1(aName,colmAnnoDf)
-        if(length(re$inds)>0){
-          # i is the half width of a cell
-          hl=0.5/nrow(colmAnnoDf)
-          ComplexHeatmap::decorate_annotation(aName, {
-            grid::grid.text(re$dStr,x=hl*(2*mapInd[re$inds]-1))
-          })
-        }
-      }
-    }
-  }
-  
+  ht1
 }

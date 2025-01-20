@@ -137,7 +137,8 @@ more complicated cell drawing, use the parameter \code{cell_fun} of
 \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} directly.}
 
 \item{annoCellFunList}{list of functions to define the indices and content to display values
-of annotation, \code{NULL}; the returned value of each function can be the followings:
+of annotation, \code{NULL}; to use this, \code{drawHeatmap} must be \code{TRUE};
+the returned value of each function can be the followings:
 \itemize{
 \item A vector, the actual values of the annotation are displayed
 \itemize{
@@ -207,7 +208,7 @@ but can be any numeric vector whose range is within \code{unname(colMap)}.}
 \item{legendTickLabels}{character, NULL; the label of legend tick; should be the
 same length as the \code{legendTicks}; use '' to skip a tick.}
 
-\item{asGGplot}{logical, FALSE; output as ggplot object}
+\item{asGGplot}{logical, FALSE; to output as ggplot object, \code{drawHeatmap} must be \code{TRUE}}
 
 \item{...}{passed to \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 }
@@ -233,14 +234,14 @@ annotations of the heatmap.
 \item Clustering of the character matrix based on the orders of characters.
 \item Interface to plot across rows.
 \item Handling of edge cases:
-}
 \itemize{
-\item Inf and -Inf values in input matrix cause errors in \code{stats::dist()} for
+\item \code{Inf} and \code{-Inf} values in input matrix cause errors in \code{stats::dist()} for
 clustering, they are reset as NA.
 \item If missing values are present in the input matrix or row and column
 annotations, a legend for missing value is added.
 \item Plot a heatmap of a data.frame with columns of different data types
 clustered by one of the columns.
+}
 }
 }
 \examples{
