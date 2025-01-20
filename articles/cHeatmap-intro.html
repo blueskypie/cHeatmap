@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cHeatmap</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,8 +107,8 @@ types clustered by one of the columns.</p></li>
 <h3 id="exclusion-of-outliers-in-the-color-mapping">Exclusion of outliers in the color mapping<a class="anchor" aria-label="anchor" href="#exclusion-of-outliers-in-the-color-mapping"></a>
 </h3>
 <p>Outliers in a numeric matrix dominate the color scale and make the
-differences among many cells barely visible, such as body and
-<code>ra1</code> annotation below.</p>
+differences among many cells barely visible, such as the heatmap body
+and <code>ra1</code> annotation below.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/blueskypie/cHeatmap" class="external-link">cHeatmap</a></span><span class="op">)</span></span>
 <span></span>
@@ -340,7 +340,6 @@ continuous; otherwise, the mapping is discrete.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">mati</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">42</span>, <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>, name <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
 <p>Set colors manually.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>,</span>
