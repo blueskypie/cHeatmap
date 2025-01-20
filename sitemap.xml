@@ -9,12 +9,17 @@
 <url><loc>https://blueskypie.github.io/cHeatmap/news/index.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/addSingleValue.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html</loc></url>
+<url><loc>https://blueskypie.github.io/cHeatmap/reference/cHeatmap0.html</loc></url>
+<url><loc>https://blueskypie.github.io/cHeatmap/reference/cleanList.html</loc></url>
+<url><loc>https://blueskypie.github.io/cHeatmap/reference/colMapDistinctRegions.html</loc></url>
+<url><loc>https://blueskypie.github.io/cHeatmap/reference/formatNum.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/getDistinctColors.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/getOutliersInd.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/gridFuns.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/hasInfinite.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/index.html</loc></url>
-<url><loc>https://blueskypie.github.io/cHeatmap/reference/nRoundDigits.html</loc></url>
+<url><loc>https://blueskypie.github.io/cHeatmap/reference/setAnnoLegend.html</loc></url>
+<url><loc>https://blueskypie.github.io/cHeatmap/reference/setColMapAndLegend.html</loc></url>
 <url><loc>https://blueskypie.github.io/cHeatmap/reference/vecSwitch.html</loc></url>
 </urlset>
 
