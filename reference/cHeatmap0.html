@@ -193,7 +193,8 @@ more complicated cell drawing, use the parameter <code>cell_fun</code> of
 
 <dt id="arg-annocellfunlist">annoCellFunList<a class="anchor" aria-label="anchor" href="#arg-annocellfunlist"></a></dt>
 <dd><p>list of functions to define the indices and content to display values
-of annotation, <code>NULL</code>; the returned value of each function can be the followings:</p><ul><li><p>A vector, the actual values of the annotation are displayed</p><ul><li><p>if the vector is 'o', the cells to display are the outliers</p></li>
+of annotation, <code>NULL</code>; to use this, <code>drawHeatmap</code> must be <code>TRUE</code>;
+the returned value of each function can be the followings:</p><ul><li><p>A vector, the actual values of the annotation are displayed</p><ul><li><p>if the vector is 'o', the cells to display are the outliers</p></li>
 <li><p>otherwise, the vector should be indices in the original <code>rowAnnoDf</code> or
 <code>colmAnnoDf</code></p></li>
 </ul></li>
@@ -284,14 +285,14 @@ annotations of the heatmap.</p></li>
 <li><p>Discrete color-value mapping for integer matrices containing few unique values.</p></li>
 <li><p>Clustering of the character matrix based on the orders of characters.</p></li>
 <li><p>Interface to plot across rows.</p></li>
-<li><p>Handling of edge cases:</p></li>
-</ol><ul><li><p>Inf and -Inf values in input matrix cause errors in <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::dist()</a></code> for
+<li><p>Handling of edge cases:</p><ul><li><p><code>Inf</code> and <code>-Inf</code> values in input matrix cause errors in <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::dist()</a></code> for
 clustering, they are reset as NA.</p></li>
 <li><p>If missing values are present in the input matrix or row and column
 annotations, a legend for missing value is added.</p></li>
 <li><p>Plot a heatmap of a data.frame with columns of different data types
 clustered by one of the columns.</p></li>
-</ul></div>
+</ul></li>
+</ol></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

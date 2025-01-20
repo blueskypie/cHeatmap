@@ -340,6 +340,7 @@ continuous; otherwise, the mapping is discrete.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">mati</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">42</span>, <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>, name <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
 <p>Set colors manually.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">mati</span>,</span>
@@ -359,8 +360,8 @@ heatmaps.</p>
 <span></span>
 <span><span class="va">hm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">nMat1</span>, drawHeatmap <span class="op">=</span> <span class="cn">F</span>, name <span class="op">=</span> <span class="st">"nMat1"</span><span class="op">)</span></span>
 <span><span class="va">hm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cHeatmap.html">cHeatmap</a></span><span class="op">(</span><span class="va">uMat1</span>, drawHeatmap <span class="op">=</span> <span class="cn">F</span>, name <span class="op">=</span> <span class="st">"uMat1"</span><span class="op">)</span></span>
-<span><span class="va">hm1</span> <span class="op">+</span> <span class="va">hm2</span></span>
-<span><span class="co">#&gt; integer(0)</span></span></code></pre></div>
+<span><span class="va">hm1</span> <span class="op">+</span> <span class="va">hm2</span></span></code></pre></div>
+<p><img src="cHeatmap-intro_files/figure-html/unnamed-chunk-15-1.png" width="1008"></p>
 </div>
 <div class="section level3">
 <h3 id="plot-inside-each-row-using-rowdraw">Plot inside each row using <code>rowDraw</code><a class="anchor" aria-label="anchor" href="#plot-inside-each-row-using-rowdraw"></a>
