@@ -201,6 +201,8 @@ cHeatmap <- function(mat1,
   thiscall <- match.call(expand.dots = TRUE)
   thiscall=as.list(thiscall)
   thiscall['asGGplot']=NULL
+  if(is.null(rowAnnoPara$na_col)) rowAnnoPara$na_col=NA.color
+  if(is.null(colmAnnoPara$na_col)) colmAnnoPara$na_col=NA.color
   
   if(asgg){
     ggplotify::as.ggplot(function(){do.call(cHeatmap0,thiscall[-1])})
