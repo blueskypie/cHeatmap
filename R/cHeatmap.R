@@ -9,7 +9,7 @@
 #' that the color scale of the heatmap and annotations is not dominated by outliers.
 #' 2. The option to set the color-value mappings for the body and annotations of heatmaps.
 #' 3. Automatic coloring of the dendrogram.
-#' 4. Easy highlight or display of the values of certain cells in the body and 
+#' 4. Easy highlight or display of the values of certain cells in the body and
 #'    annotations of the heatmap.
 #' 5. Discrete color-value mapping for integer matrices containing few unique values.
 #' 6. Clustering of the character matrix based on the orders of characters.
@@ -19,9 +19,9 @@
 #'      clustering, they are reset as NA.
 #'    * If missing values are present in the input matrix or row and column
 #'      annotations, a legend for missing value is added.
-#'    * Plot a heatmap of a data.frame with columns of different data types 
+#'    * Plot a heatmap of a data.frame with columns of different data types
 #'      clustered by one of the columns.
-#'     
+#'
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
 #' @param NA.color character,'grey'; the color for missing values in `mat1`,
@@ -45,7 +45,7 @@
 #'         outliers.
 #'      3. One or both of the first and last values of `colMap` can be supplied as NA;
 #'         then outliers will be auto-computed if `rmLegendOutliers` is `TRUE`.
-#' 
+#'
 #' @param intAsDiscreteCutoff integer, 6; if `mat1` is an integer matrix and has < 6
 #'        unique values, the color mapping in the legend will be discrete.
 #' @param legendPos one of `c("right", "left", "bottom", "top")`
@@ -101,9 +101,9 @@
 #'    The `'o'` and `'rect'` are hard coded cases for usage convenience; for
 #'       more complicated cell drawing, use the parameter `cell_fun` of
 #'       [ComplexHeatmap::Heatmap()] directly.
-#'       
-#' @param annoCellFunList list of functions to define the indices and content to display values 
-#'   of annotation, `NULL`; to use this, `drawHeatmap` must be `TRUE`;  
+#'
+#' @param annoCellFunList list of functions to define the indices and content to display values
+#'   of annotation, `NULL`; to use this, `drawHeatmap` must be `TRUE`;
 #'     the returned value of each function can be the followings:
 #'    * A vector, the actual values of the annotation are displayed
 #'      + if the vector is 'o', the cells to display are the outliers
@@ -112,10 +112,10 @@
 #'    * A list of two vectors
 #'      + the 1st vector is defined as above
 #'      + the 2nd vector is a single string as the content to display
-#'  for example, here the columns `height` and `name` are used as annotation: 
-#'    * `annoCellFunList = list(height=\(x){ which(x>6)},name=\(x) {1:2}))`: 
+#'  for example, here the columns `height` and `name` are used as annotation:
+#'    * `annoCellFunList = list(height=\(x){ which(x>6)},name=\(x) {1:2}))`:
 #'       display the heights greater than 6 and the first two names
-#'    * `annoCellFunList = list(height=\(x){'o'},name=\(x) {list(1:2,'x')}))`: 
+#'    * `annoCellFunList = list(height=\(x){'o'},name=\(x) {list(1:2,'x')}))`:
 #'       display the outlier heights and the first two names as 'x'
 
 #' @param cfMat `mat1`; the matrix for the *cells* in `cellFun`; it should have
@@ -196,14 +196,14 @@ cHeatmap <- function(mat1,
                      legendTickLabels = NULL,
                      asGGplot = FALSE,
                      ...) {
-  
+
   asgg=asGGplot
   thiscall <- match.call(expand.dots = TRUE)
   thiscall=as.list(thiscall)
   thiscall['asGGplot']=NULL
-  if(is.null(rowAnnoPara$na_col)) rowAnnoPara$na_col=NA.color
-  if(is.null(colmAnnoPara$na_col)) colmAnnoPara$na_col=NA.color
-  
+  if(is.null(rowAnnoPara$na_col)) thiscall$rowAnnoPara$na_col=NA.color
+  if(is.null(colmAnnoPara$na_col)) thiscall$colmAnnoPara$na_col=NA.color
+
   if(asgg){
     ggplotify::as.ggplot(function(){do.call(cHeatmap0,thiscall[-1])})
   }else{
@@ -224,7 +224,7 @@ cHeatmap <- function(mat1,
 #' that the color scale of the heatmap and annotations is not dominated by outliers.
 #' 2. The option to set the color-value mappings for the body and annotations of heatmaps.
 #' 3. Automatic coloring of the dendrogram.
-#' 4. Easy highlight or display of the values of certain cells in the body and 
+#' 4. Easy highlight or display of the values of certain cells in the body and
 #'    annotations of the heatmap.
 #' 5. Discrete color-value mapping for integer matrices containing few unique values.
 #' 6. Clustering of the character matrix based on the orders of characters.
@@ -234,9 +234,9 @@ cHeatmap <- function(mat1,
 #'      clustering, they are reset as NA.
 #'    * If missing values are present in the input matrix or row and column
 #'      annotations, a legend for missing value is added.
-#'    * Plot a heatmap of a data.frame with columns of different data types 
+#'    * Plot a heatmap of a data.frame with columns of different data types
 #'      clustered by one of the columns.
-#'     
+#'
 #'
 #' @param mat1 A numeric or character matrix or data frame, required.
 #' @param NA.color character,'grey'; the color for missing values in `mat1`,
@@ -316,9 +316,9 @@ cHeatmap <- function(mat1,
 #'    The `'o'` and `'rect'` are hard coded cases for usage convenience; for
 #'       more complicated cell drawing, use the parameter `cell_fun` of
 #'       [ComplexHeatmap::Heatmap()] directly.
-#'       
-#' @param annoCellFunList list of functions to define the indices and content to display values 
-#'   of annotation, `NULL`; to use this, `drawHeatmap` must be `TRUE`;  
+#'
+#' @param annoCellFunList list of functions to define the indices and content to display values
+#'   of annotation, `NULL`; to use this, `drawHeatmap` must be `TRUE`;
 #'     the returned value of each function can be the followings:
 #'    * A vector, the actual values of the annotation are displayed
 #'      + if the vector is 'o', the cells to display are the outliers
@@ -327,10 +327,10 @@ cHeatmap <- function(mat1,
 #'    * A list of two vectors
 #'      + the 1st vector is defined as above
 #'      + the 2nd vector is a single string as the content to display
-#'  for example, here the columns `height` and `name` are used as annotation: 
-#'    * `annoCellFunList = list(height=\(x){ which(x>6)},name=\(x) {1:2}))`: 
+#'  for example, here the columns `height` and `name` are used as annotation:
+#'    * `annoCellFunList = list(height=\(x){ which(x>6)},name=\(x) {1:2}))`:
 #'       display the heights greater than 6 and the first two names
-#'    * `annoCellFunList = list(height=\(x){'o'},name=\(x) {list(1:2,'x')}))`: 
+#'    * `annoCellFunList = list(height=\(x){'o'},name=\(x) {list(1:2,'x')}))`:
 #'       display the outlier heights and the first two names as 'x'
 
 #' @param cfMat `mat1`; the matrix for the *cells* in `cellFun`; it should have
@@ -407,44 +407,44 @@ cHeatmap0 <- function(mat1,
                       legendTicks = NULL,
                       legendTickLabels = NULL,
                       ...) {
-  
+
   argList <- list( #arguments for ComplexHeatmap::Heatmap()
     na_col=NA.color,
     show_parent_dend_line = F,
     # add white edge for each cell
     rect_gp = grid::gpar(col = "white", lwd = 0.1)
   )
-  
-  
+
+
   if (is.data.frame(mat1))  mat1 <- as.matrix(mat1)
-  
+
   # add a legend for missing values in mat1 or annotation
   addLgd4NA=hasInfinite(mat1) || hasInfinite(rowAnnoDf) || hasInfinite(colmAnnoDf)
-  
-  
+
+
   re=setColMapAndLegend(mat1,colMap=colMap,
                         intAsDiscreteCutoff=intAsDiscreteCutoff,
                         rmLegendOutliers=rmLegendOutliers,
                         isAnnotation=F,
                         legendTicks=legendTicks, legendTickLabels=legendTickLabels)
-  
-  
-  
+
+
+
   if(!is.null(re$newVals)) mat1=re$newVals
-  
-  
+
+
   colMap=re$colmap
   cmLen <- length(colMap)
   argList$col <- `if`(re$isDiscrete,colMap,circlize::colorRamp2(unname(colMap), names(colMap)))
-  
-  
+
+
   # display cell values -----
   if (!is.null(cellFun)) {
     argList$cell_fun <- function(j, i, x, y, width, height, fill) {
       k <- NULL # the char to display
       # is outliers
       isOL=is.finite(cfMat[i, j]) && (cfMat[i, j] > colMap[cmLen] || cfMat[i, j] < colMap[1])
-      
+
       if (is.character(cellFun)) {
         if (cellFun[1] == 'o' && isOL) {
           k <- ifelse(length(cellFun) > 1, cellFun[2], cfMat[i, j])
@@ -456,18 +456,18 @@ cHeatmap0 <- function(mat1,
           k <- cellFun[-1]
         }
       }
-      
+
       if (is.numeric(k) && is.finite(k)) {
         k <- formatNum(k)
       }
-      
+
       if (is.character(k)) {
         grid::grid.text(k,
                         x,
                         y,
                         gp = grid::gpar(fontsize = cellFontSize, col = cellFontColor))
       }
-      
+
       if (is.list(k)) {
         if (k[[1]] == 'rect') {
           if (is.null(k$fill))
@@ -483,8 +483,8 @@ cHeatmap0 <- function(mat1,
       }
     }
   }
-  
-  
+
+
   # draw row figures ------
   if (!is.null(rowDraw)) {
     argList$layer_fun <- function(j, i, x, y, w, h, fill) {
@@ -494,7 +494,7 @@ cHeatmap0 <- function(mat1,
       #the start and end mark of each row in y-axis
       # i.e. for 5 rows, ry is 0.0 0.2 0.4 0.6 0.8 1.0
       ry <- seq(1, 0, -1 / nRow)
-      
+
       rowIDs <- `if`(length(rowDraw) == 2, 1:nrow(mat1), rowDraw[[3]])
       for (rInd in 1:nRow) {
         # rInd: row index in the current slice
@@ -504,12 +504,12 @@ cHeatmap0 <- function(mat1,
           k <- which(rowIDs == i[rInd])
           Ys <- rowDraw[[2]][k, ]
           inds <- which(!is.na(Ys))
-          
+
           if (length(inds) > 0) {
             Ys <- Ys[inds]
             Xs <- unique(x)[inds] #x coordinates of Ys in current slice
             Ys <- scales::rescale(Ys, c(ry[rInd + 1], ry[rInd]))
-            
+
             #browser()
             for (f in rowDraw[1]) {
               if (is.list(f[[1]])) {
@@ -524,13 +524,13 @@ cHeatmap0 <- function(mat1,
       }
     }
   }
-  
-  
-  
-  
+
+
+
+
   # row annotation -----
   if (!is.null(rowAnnoDf)) {
-    re1=setAnnoLegend(mat1,rowAnnoDf,on=1, 
+    re1=setAnnoLegend(mat1,rowAnnoDf,on=1,
                       annoColMapList=rowAnnoColMap,
                       annoParaList=rowAnnoPara,
                       rmLegendOutliers=rmLegendOutliers,
@@ -538,10 +538,10 @@ cHeatmap0 <- function(mat1,
     argList$left_annotation=re1$ha
     if(!is.null(re1$newDf)) rowAnnoDf=re1$newDf
   }
-  
+
   # column annotation -----
   if (!is.null(colmAnnoDf)) {
-    re1=setAnnoLegend(mat1,colmAnnoDf,on=2, 
+    re1=setAnnoLegend(mat1,colmAnnoDf,on=2,
                       annoColMapList=colmAnnoColMap,
                       annoParaList=colmAnnoPara,
                       rmLegendOutliers=rmLegendOutliers,
@@ -549,24 +549,24 @@ cHeatmap0 <- function(mat1,
     argList$top_annotation=re1$ha
     if(!is.null(re1$newDf)) colmAnnoDf=re1$newDf
   }
-  
-  
+
+
   # collect heatmap_legend_param----
   lgdParas <- c(
     list(title_position = "topleft",break_dist = legendBreakDist),
     re$legendParas)
-  
+
   if(!is.null(legendHeight)) {
     lgdParas$legend_height  <- grid::unit(legendHeight, 'cm')
   }
-  
+
   dotArgs <- list(...)
   dotArgs$heatmap_legend_param <- c(dotArgs$heatmap_legend_param, lgdParas)
-  
+
   # overwrite any hard-coded parameters with user supplied ones if any
   argList$matrix <- mat1
   argList[names(dotArgs)] <- dotArgs
-  
+
   # clustering and color dendrogram ----
   if (!is.null(nRowCluster)) {
     row_dend <- stats::as.dendrogram(stats::hclust(stats::dist(mat1))) # row clustering
@@ -576,13 +576,13 @@ cHeatmap0 <- function(mat1,
     colm_dend <- stats::as.dendrogram(stats::hclust(stats::dist(t(mat1)))) # row clustering
     argList$cluster_columns <- dendextend::color_branches(colm_dend, k = nColmCluster)
   }
-  
+
   #set the height of heatmap body same as the height of each column annotation
   if(nrow(mat1)==1) argList$height=grid::unit(5, "mm")
   else if(ncol(mat1)==1) argList$width=grid::unit(5, "mm")
-  
+
   ht1 <- do.call(ComplexHeatmap::Heatmap, argList)
-  
+
   if (drawHeatmap) {
     lgd=list()
     if(addLgd4NA){
@@ -592,9 +592,9 @@ cHeatmap0 <- function(mat1,
     ht1=ComplexHeatmap::draw(ht1, heatmap_legend_list =lgd,
                              merge_legend = TRUE,
                              heatmap_legend_side = legendPos[1])
-    
+
     # display certain values in the annotation -------
-    if(!is.null(annoCellFunList)){ 
+    if(!is.null(annoCellFunList)){
       f1=\(x,df){
         inds=NULL
         dStr=NULL
@@ -604,19 +604,19 @@ cHeatmap0 <- function(mat1,
         }else if(all(re%%1==0)){ #check is all are integers
           inds=re
         }
-        
+
         if(is.list(re)){
           if(is.null(inds)) inds=re[[1]]
           dStr=re[[2]]
         }
-        
+
         if(is.null(dStr)) dStr=df[inds,x]
-        
+
         if(is.numeric(dStr)) dStr=formatNum(dStr,less1=T)
         list(inds=inds,dStr=dStr)
       }
-      
-      
+
+
       for(aName in names(annoCellFunList)){
         if(aName %in% colnames(rowAnnoDf)){
           newOrders=ComplexHeatmap::row_order(ht1)
@@ -630,7 +630,7 @@ cHeatmap0 <- function(mat1,
           }
         }else{
           newOrders=ComplexHeatmap::column_order(ht1)
-          mapInd=order(newOrders) #ncol(mat1)+1-order(newOrders) 
+          mapInd=order(newOrders) #ncol(mat1)+1-order(newOrders)
           re=f1(aName,colmAnnoDf)
           if(length(re$inds)>0){
             # i is the half width of a cell
