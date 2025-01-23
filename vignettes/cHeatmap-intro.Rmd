@@ -75,7 +75,7 @@ cHeatmap(
 )
 ```
 
-Set `rmLegendOutliers = T`, default for numerical vectors, to remove outliers in the color-value mapping of the legends, so that the difference in the body and annotation can be easily visualized. See [Reference Manual](https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html) for details. Note that the affected labels of the legends now prefixed with `>` or `<`, unless `mat1` is a discrete integer vector like `ra1`, i.e.  the number of unique items is less than `intAsDiscreteCutoff`.
+Set `rmLegendOutliers = T`, default for numerical vectors, to remove outliers in the color-value mapping of the legends, so that the difference in the body and annotation can be easily visualized. See [Reference Manual](https://blueskypie.github.io/cHeatmap/reference/cHeatmap.html) for details. Note that the affected labels of the legends are now prefixed with `>` or `<`, unless `mat1` is a discrete integer vector like `ra1`, i.e.  the number of unique items is less than `intAsDiscreteCutoff`.
 
 ```{r, fig.keep = 'last', fig.asp = 5/7 }
 cHeatmap(
